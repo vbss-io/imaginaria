@@ -7,6 +7,7 @@ import { DarkModeProvider } from '@/presentation/contexts/dark-mode-context.tsx'
 import { Home } from '@/presentation/pages/Home';
 import { NotFound } from '@/presentation/pages/NotFound';
 
+
 const router = createBrowserRouter([
   {
     path: '/',
