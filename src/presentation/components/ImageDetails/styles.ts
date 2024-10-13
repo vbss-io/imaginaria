@@ -1,96 +1,36 @@
-import { Link } from 'react-router-dom';
 import { Dialog } from 'vbss-ui';
 
 import { styled } from '@/presentation/config/stitches.config';
 
 export const Container = styled('div', {
-  position: 'fixed',
-  left: 0,
-  top: 0,
   width: '100%',
   height: '100%',
   display: 'flex',
-  zIndex: 1,
 });
-
-export const ContainerBlackOverlay = styled(Link, {
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100vh',
-  backgroundColor: 'black',
-  opacity: '0.2'
-})
-
-export const Modal = styled('div', {
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  backgroundColor: '$background',
-  borderRadius: '1rem',
-  color: 'white',
-  margin: '2rem',
-  zIndex: 1,
-
-  svg: {
-    color: '$primary'
-  },
-
-  '@xsm': {
-    alignSelf: 'unset',
-    justifySelf: 'unset',
-  }
-});
-
-export const ModalHeader = styled('div', {
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'flex-end',
-
-  a: {
-    padding: '1rem',
-  }
-})
 
 export const ModalContent = styled('div', {
+  width: '100%',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  height: 'fit-content',
-  width: 'fit-content',
-  maxWidth: '100%',
-  maxHeight: '50%',
+  flexDirection: 'column',
 
   img: {
-    height: '100%',
-    width: '100%'
-  },
+    maxHeight: '60vh',
 
-  '@sm': {
-    maxHeight: '70%',
-  },
-
-  '@md': {
-    height: 'fit-content',
-    width: 'fit-content',
-    maxHeight: '80%',
-    maxWidth: '100%',
+    '@md': {
+      maxHeight: '80vh',
+    }
   }
 })
 
 export const DetailsDialog = styled(Dialog, {
   backgroundColor: '$background !important',
+  color: '$text',
 
   h2: {
     color: '$text'
   },
-
-  p: {
-    color: '$text'
-  }
 })
 
 export const DetailsContainer = styled('div', {
@@ -123,7 +63,7 @@ export const DetailsHeader = styled('div', {
 export const DetailsHeaderInfo = styled('div', {
   display: 'flex',
   flexDirection: 'column',
-  color: '$background',
+  color: 'white',
   gap: '1rem'
 })
 
