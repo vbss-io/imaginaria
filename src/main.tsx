@@ -1,9 +1,11 @@
-import App from '@/App.tsx'
-import { globalCss } from '@/presentation/config/stitches.config'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import "vbss-ui/dist/style.css"
-import { registerDependencies } from './infra/dependency-injection/Register'
+
+import App from '@/App.tsx'
+import "@/customColors.css"
+import { registerDependencies } from '@/infra/dependency-injection/Register'
+import { globalCss } from '@/presentation/config/stitches.config'
 
 registerDependencies()
 

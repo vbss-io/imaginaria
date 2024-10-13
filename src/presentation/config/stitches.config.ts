@@ -13,9 +13,9 @@ export const {
     colors: {
       background: '#FFFFFF',
       text: '#000000',
-      primary: '#473D8A',
-      secondary: '#6A5BCD',
-      highlight: '#552087'
+      primary: '#1C7C54',
+      secondary: '#1B512D',
+      highlight: '#73E2A7'
     },
   },
   media: {
@@ -31,9 +31,9 @@ export const darkTheme = createTheme({
   colors: {
     background: '#151B23',
     text: '#FFFFFF',
-    primary: '#473D8A',
-    secondary: '#6A5BCD',
-    highlight: '#552087'
+    primary: '#1C7C54',
+    secondary: '#1B512D',
+    highlight: '#73E2A7'
   },
 });
 
@@ -44,5 +44,6 @@ export const Root = styled('div', {
   alignContent: 'center',
   flexDirection: 'column',
   fontFamily: 'Arial',
-  backgroundColor: '$background'
+  backgroundColor: '$background',
+  gap: '1rem'
 });
