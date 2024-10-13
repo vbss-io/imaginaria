@@ -6,7 +6,8 @@ export const Container = styled('div', {
   flexDirection: 'column',
   gap: '0.5rem',
   justifyContent: 'center',
-  alignItems: 'center'
+  alignItems: 'center',
+  height: 'calc(100vh - 20rem)'
 });
 
 export const NotFoundText = styled('p', {
