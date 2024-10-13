@@ -72,7 +72,7 @@ export const Header = () => {
               as='a'
               size="icon-md"
               rounded="full"
-              href='https://github.com/vbss-io'
+              href='https://github.com/vbss-io/ai-content-factory'
               target="_blank"
               variant='ghost'
             >

@@ -6,12 +6,12 @@ export const Footer = () => {
   return (
     <S.Container>
       <S.CreatedBy>
-        Criado por <a href='https://github.com/vbss-io' target="_blank">Vitor Bastos</a>
+        Criado por <a href='https://vbss.io' target="_blank">Vitor Bastos</a>
       </S.CreatedBy>
       <S.ContactContainer>
         <Button
             size="icon-md"
-            rounded="full"
+            rounded="full" 
             onClick={() => window.open('https://vbss.io', '_blank')}
           >
             <Globe color="white" width="1.3rem" height="1.3rem"/>
