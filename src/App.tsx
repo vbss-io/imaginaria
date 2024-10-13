@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { registerDependencies } from '@/infra/dependency-injection/Register';
+import { Footer } from '@/presentation/components/Footer';
 import { Loading } from '@/presentation/components/Loading';
 import { Root } from '@/presentation/config/stitches.config';
 import { DarkModeProvider } from '@/presentation/contexts/dark-mode-context.tsx';
@@ -26,6 +27,7 @@ function App() {
     <DarkModeProvider>
       <Root>
         <RouterProvider router={router} fallbackElement={<Loading />}/>
+        <Footer />
       </Root>
     </DarkModeProvider>
   )

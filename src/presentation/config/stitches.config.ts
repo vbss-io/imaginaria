@@ -41,7 +41,8 @@ export const Root = styled('div', {
   width: '100%',
   height: '100vh',
   display: 'flex',
-  justifyContent: 'center',
+  alignContent: 'center',
+  flexDirection: 'column',
   fontFamily: 'Arial',
   backgroundColor: '$background'
 });
