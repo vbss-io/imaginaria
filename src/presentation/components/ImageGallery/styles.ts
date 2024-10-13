@@ -1,5 +1,4 @@
-
-import { Link } from "react-router-dom";
+import { Dialog } from "vbss-ui";
 
 import { styled } from "@/presentation/config/stitches.config";
 
@@ -30,13 +29,13 @@ export const MasonryWrapper = styled('div', {
   }
 });
 
-export const MasonryItem = styled(Link, {
-  overflowY: 'hidden',
-  display: 'flex',
-  width: '100%',
-  paddingBottom: '1rem',
+export const ImageDialog = styled(Dialog, {
+  backgroundColor: '$background',
+  color: '$text',
+  maxHeight: '95vh',
+  maxWidth: '90vw',
 
-  img: {
-    borderRadius: '0.5rem'
+  h2: {
+    color: '$background'
   }
-});
+})
