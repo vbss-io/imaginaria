@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Dialog } from "vbss-ui";
 
 import { styled } from "@/presentation/config/stitches.config";
 
@@ -8,12 +8,53 @@ export const Container = styled('div', {
   justifyContent: 'center',
   alignItems: 'center',
   width: '100%',
-  height: '25rem',
   minHeight: '20rem',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'cover',
 });
+
+export const HeaderButtonsContainer = styled('div', {
+  position: 'absolute',
+  width: '95%',
+  display: 'flex',
+  top: 0,
+  zIndex: 1,
+  justifyContent: 'flex-end',
+  
+  '@sm': {
+    width: '90%',
+    justifyContent: 'space-between',
+  },
+
+  '@lg': {
+    width: '80%',
+  }
+})
+
+export const HeaderButtons = styled('div', {
+  display: 'flex',
+  gap: '1rem',
+  padding: '0.5rem',
+
+  '@sm': {
+    '&>.mobile-menu': {
+      display: 'none'
+    }
+  },
+
+  variants: {
+    desktop: {
+      true: {
+        display: 'none',
+
+        '@sm': {
+          display: 'flex'
+        }
+      }
+    }
+  }
+})
 
 export const Title = styled('h1', {
   fontWeight: 700,
@@ -30,7 +71,7 @@ export const Title = styled('h1', {
   }
 });
 
-export const ImageInfo = styled(Link, {
+export const ImageInfo = styled('div', {
   position: 'absolute',
   bottom: 0,
   right: 0,
@@ -52,3 +93,14 @@ export const BlackOverlay = styled('div', {
   height: '100%',
   opacity: 0.5
 });
+
+export const ImageDialog = styled(Dialog, {
+  backgroundColor: '$background',
+  color: '$text',
+  maxHeight: '95vh',
+  maxWidth: '90vw',
+
+  h2: {
+    color: '$background'
+  }
+})
