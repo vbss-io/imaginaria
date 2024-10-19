@@ -1,90 +1,94 @@
-import { Dialog } from 'vbss-ui';
+import { Dialog } from "vbss-ui";
 
-import { styled } from '@/presentation/config/stitches.config';
+import { styled } from "@/presentation/config/stitches.config";
 
-export const Container = styled('div', {
-  width: '100%',
-  height: '100%',
-  display: 'flex',
+export const Container = styled("div", {
+  width: "100%",
+  height: "100%",
+  display: "flex",
 });
 
-export const ModalContent = styled('div', {
-  width: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'column',
+export const ModalContent = styled("div", {
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
 
   img: {
-    maxHeight: '60vh',
+    maxHeight: "60vh",
 
-    '@md': {
-      maxHeight: '80vh',
-    }
-  }
-})
+    "@md": {
+      maxHeight: "80vh",
+    },
+  },
+});
 
 export const DetailsDialog = styled(Dialog, {
-  backgroundColor: '$background !important',
-  color: '$text',
+  backgroundColor: "$background !important",
+  color: "$text",
 
   h2: {
-    color: '$text'
+    color: "$text",
   },
-})
 
-export const DetailsContainer = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem'
-})
+  p: {
+    display: "none",
+  },
+});
 
-export const DetailsHeader = styled('div', {
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '1rem',
-  padding: '1rem',
-  backgroundColor: '$primary',
-  borderRadius: '1rem',
-  flexDirection: 'column',
+export const DetailsContainer = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+});
 
-  '@sm': {
-    flexDirection: 'row',
+export const DetailsHeader = styled("div", {
+  width: "100%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "1rem",
+  padding: "1rem",
+  backgroundColor: "$primary",
+  borderRadius: "1rem",
+  flexDirection: "column",
+
+  "@sm": {
+    flexDirection: "row",
   },
 
   img: {
-    height: '10rem',
-    borderRadius: '1rem'
+    height: "10rem",
+    borderRadius: "1rem",
   },
-})
+});
 
-export const DetailsHeaderInfo = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  color: 'white',
-  gap: '1rem'
-})
+export const DetailsHeaderInfo = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  color: "white",
+  gap: "1rem",
+});
 
-export const DetailsHeaderInfoCard = styled('div', {
-  minWidth: '30%',
-  display: 'flex',
-  alignItems: 'flex-start',
-  flexDirection: 'column',
-  
+export const DetailsHeaderInfoCard = styled("div", {
+  minWidth: "30%",
+  display: "flex",
+  alignItems: "flex-start",
+  flexDirection: "column",
+
   span: {
-    opacity: 0.5
-  }
-})
+    opacity: 0.5,
+  },
+});
 
-export const DetailsContent = styled('div', {
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: '1rem',
+export const DetailsContent = styled("div", {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "1rem",
 
   strong: {
-    fontWeight: 500
+    fontWeight: 500,
   },
 
   span: {
@@ -94,37 +98,37 @@ export const DetailsContent = styled('div', {
   variants: {
     column: {
       true: {
-        flexDirection: 'column',
+        flexDirection: "column",
 
         strong: {
-          fontSize: '0.8rem'
-        }
-      }
-    }
-  }
-})
+          fontSize: "0.8rem",
+        },
+      },
+    },
+  },
+});
 
-export const ModalFooter = styled('div', {
-  width: '100%',
-  display: 'flex',
-  padding: '1rem',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '1rem',
-  
-  '@md': {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  }
-})
+export const ModalFooter = styled("div", {
+  width: "100%",
+  display: "flex",
+  padding: "1rem",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "1rem",
 
-export const ModalFooterButtons = styled('div', {
-  display: 'flex',
-  gap: '1rem',
-  flexDirection: 'column',
+  "@md": {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+});
 
-  '@md': {
-    flexDirection: 'row',
-  }
-})
+export const ModalFooterButtons = styled("div", {
+  display: "flex",
+  gap: "1rem",
+  flexDirection: "column",
+
+  "@md": {
+    flexDirection: "row",
+  },
+});
