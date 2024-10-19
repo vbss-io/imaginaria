@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 
-type Tab = 'images' | 'videos' | 'audios'
+type Tab = 'images' | 'videos' | 'audios' | 'batches'
 
 export const TabContext = createContext({} as {
   tab: Tab
