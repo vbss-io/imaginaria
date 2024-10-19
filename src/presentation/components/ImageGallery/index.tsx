@@ -1,78 +1,92 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 
-import { GetImages } from '@/application/usecases/GetImages';
-import { Image as ImageModel } from '@/domain/models/Image';
-import { LoadImage } from '@/presentation/components/Image';
-import { ImageDetails } from '@/presentation/components/ImageDetails';
+import { GetImages } from "@/application/usecases/GetImages";
+import { Image as ImageModel } from "@/domain/models/Image";
+import { LoadImage } from "@/presentation/components/Image";
+import { ImageDetails } from "@/presentation/components/ImageDetails";
 
-import * as S from './styles';
+import { GetImagesInput } from "@/application/usecases/dto/GetImages.dto";
+import { ImageFilters } from "@/presentation/components/ImageFilters";
+import * as S from "./styles";
 
-type Images = ImageModel[]
+type Images = ImageModel[];
 
 export const ImageGallery = () => {
-  const [images, setImages] = useState<Images>([])
-  const page = useRef<number>(0)
-  const hasFetched = useRef(false)
-  const hasMore = useRef(true)
-  const getImagesUsecase = new GetImages()
+  const [images, setImages] = useState<Images>([]);
+  const [filters, setFilters] = useState<Omit<GetImagesInput, "page">>({});
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const page = useRef<number>(0);
+  const hasMore = useRef(true);
 
-  const getImages = async () => {
-    page.current = page.current + 1
-    return await getImagesUsecase.execute({ page: page.current })
-  }
+  const getImages = async (scroll?: boolean) => {
+    if (!scroll) setIsLoading(true);
+    page.current = page.current + 1;
+    const getImagesUsecase = new GetImages();
+    const responseImages = await getImagesUsecase.execute({
+      page: page.current,
+      ...filters,
+    });
+    if (!scroll) {
+      setImages(responseImages ?? []);
+      setIsLoading(false);
+    }
+    return responseImages;
+  };
 
   useEffect(() => {
     const loadImages = async () => {
-      const newImages = await getImages()
-      setImages(newImages)
+      await getImages();
     };
-    if (hasFetched.current) return
-    hasFetched.current = true
-    loadImages()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    hasMore.current = true;
+    page.current = 0;
+    loadImages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters]);
 
   useEffect(() => {
     const handleScroll = async () => {
       const scrollPosition = window.scrollY + window.innerHeight;
       const pageHeight = document.documentElement.scrollHeight;
       if (scrollPosition >= pageHeight && hasMore.current) {
-        const newImages = await getImages()
+        const newImages = await getImages(true);
         if (!newImages.length) {
-          hasMore.current = false
-          return
+          hasMore.current = false;
+          return;
         }
-        setImages((prev) => [...prev, ...newImages])
+        setImages((prev) => [...prev, ...newImages]);
       }
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters]);
 
   return (
     <S.Container>
-      <S.MasonryWrapper>
-        {
-          images.map((image) => (
+      <S.Content>
+        <ImageFilters isLoading={isLoading} setFilters={setFilters} />
+        {!isLoading && !images?.length && (
+          <S.NoData>Nenhuma Imagem encontrada.</S.NoData>
+        )}
+        <S.MasonryWrapper>
+          {images.map((image) => (
             <S.ImageDialog
+              key={image.id}
               trigger={
-                <LoadImage
-                  src={image.path}
-                  alt='image'
-                />
+                <S.ImageDialogTrigger>
+                  <LoadImage src={image.path} alt="image" />
+                </S.ImageDialogTrigger>
               }
-              title='Imagem'
+              title="Imagem"
+              description="Detalhe da Imagem"
             >
-              <ImageDetails
-                id={image.id}
-              />
+              <ImageDetails id={image.id} />
             </S.ImageDialog>
-          ))
-        }
-      </S.MasonryWrapper>
+          ))}
+        </S.MasonryWrapper>
+      </S.Content>
     </S.Container>
   );
 };
