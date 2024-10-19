@@ -1,7 +1,13 @@
-import { Image } from "@/domain/models/Image"
+import { Image } from "@/domain/models/Image";
 
 export interface GetImagesInput {
-  page: number
+  page: number;
+  search_mask?: string;
+  sampler?: string;
+  scheduler?: string;
+  aspectRatio?: string;
+  origin?: string;
+  modelName?: string;
 }
 
-export type GetImagesOutput = Array<Image>
+export type GetImagesOutput = Array<Image>;
