@@ -1,7 +1,7 @@
 import {
   type GetBatchesInput,
   type GetBatchesOutput,
-} from "@/application/usecases/dto/GetBatches.dto";
+} from "@/application/usecases/Batch/dtos/GetBatches.dto";
 import { HttpClient } from "@/domain/http/HttpClient";
 import { Registry } from "@/infra/dependency-injection/Registry";
 

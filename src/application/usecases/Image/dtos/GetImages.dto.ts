@@ -1,4 +1,4 @@
-import { Image } from "@/domain/models/Image";
+import { Image } from "@/domain/models/Image/Image";
 
 export interface GetImagesInput {
   page: number;

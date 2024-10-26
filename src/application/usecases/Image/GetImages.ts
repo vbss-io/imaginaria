@@ -1,9 +1,9 @@
 import {
   type GetImagesInput,
   type GetImagesOutput,
-} from "@/application/usecases/dto/GetImages.dto";
+} from "@/application/usecases/Image/dtos/GetImages.dto";
 import { HttpClient } from "@/domain/http/HttpClient";
-import { Image } from "@/domain/models/Image";
+import { Image } from "@/domain/models/Image/Image";
 import { Registry } from "@/infra/dependency-injection/Registry";
 
 export class GetImages {

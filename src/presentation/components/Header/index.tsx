@@ -10,8 +10,8 @@ import {
 import { useEffect, useState } from "react";
 import { Button, Switch, Tooltip } from "vbss-ui";
 
-import { GetBannerImage } from "@/application/usecases/GetBannerImage";
-import { ImageDetails as ImageDetailsModel } from "@/domain/models/ImageDetails";
+import { GetBannerImage } from "@/application/usecases/Image/GetBannerImage";
+import { ImageDetails as ImageDetailsModel } from "@/domain/models/Image/ImageDetails";
 import { MobileMenu } from "@/presentation/components/MobileMenu";
 import { useDarkMode } from "@/presentation/hooks/use-dark-mode";
 

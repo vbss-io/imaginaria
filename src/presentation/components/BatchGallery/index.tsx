@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
-import { Batch as BatchModel } from "@/domain/models/Batch";
+import { Batch as BatchModel } from "@/domain/models/Batch/Batch";
 
-import { DeleteBatch } from "@/application/usecases/DeleteBatch";
-import { GetBatchesInput } from "@/application/usecases/dto/GetBatches.dto";
-import { GetBatches } from "@/application/usecases/GetBatches";
+import { DeleteBatch } from "@/application/usecases/Batch/DeleteBatch";
+import { GetBatchesInput } from "@/application/usecases/Batch/dtos/GetBatches.dto";
+import { GetBatches } from "@/application/usecases/Batch/GetBatches";
 import { BatchFilters } from "@/presentation/components/BatchFilters";
 import { Loading } from "@/presentation/components/Loading";
 import { useAuth } from "@/presentation/hooks/use-auth";

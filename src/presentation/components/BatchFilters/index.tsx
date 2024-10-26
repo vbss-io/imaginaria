@@ -1,5 +1,5 @@
-import { GetBatchFilter } from "@/application/usecases/GetBatchFilter";
-import { GetBatchFiltersOutput } from "@/application/usecases/dto/GetBatchFilters.dto";
+import { GetBatchFiltersOutput } from "@/application/usecases/Batch/dtos/GetBatchFilters.dto";
+import { GetBatchFilter } from "@/application/usecases/Batch/GetBatchFilter";
 import { Loading } from "@/presentation/components/Loading";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eraser, Funnel, MagnifyingGlass } from "@phosphor-icons/react";

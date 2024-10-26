@@ -1,4 +1,4 @@
-import { User } from "@/domain/models/User";
+import { User } from "@/domain/models/User/User";
 import { createContext, useEffect, useState } from "react";
 
 interface Login {

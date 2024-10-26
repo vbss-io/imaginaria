@@ -1,7 +1,7 @@
 import {
   DownloadImageInput,
   DownloadImageOutput,
-} from "@/application/usecases/dto/DownloadImage.dto";
+} from "@/application/usecases/Image/dtos/DownloadImage.dto";
 import { HttpClient } from "@/domain/http/HttpClient";
 import { Registry } from "@/infra/dependency-injection/Registry";
 

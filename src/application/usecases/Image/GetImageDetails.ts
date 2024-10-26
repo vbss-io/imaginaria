@@ -1,18 +1,22 @@
+import {
+  GetImageDetailsInput,
+  GetImageDetailsOutput,
+} from "@/application/usecases/Image/dtos/GetImageDetails.dto";
 import { HttpClient } from "@/domain/http/HttpClient";
 import { Registry } from "@/infra/dependency-injection/Registry";
-import { GetBatchFiltersOutput } from "./dto/GetBatchFilters.dto";
 
-export class GetBatchFilter {
-  protected url = `${import.meta.env.VITE_AI_FACTORY}/batch/filters`;
+export class GetImageDetails {
+  protected url = `${import.meta.env.VITE_AI_FACTORY}/image`;
   httpClient: HttpClient;
 
   constructor() {
     this.httpClient = Registry.getInstance().inject("authHttpClient");
   }
 
-  async execute(): Promise<GetBatchFiltersOutput> {
+  async execute(params: GetImageDetailsInput): Promise<GetImageDetailsOutput> {
     const response = await this.httpClient.get({
       url: this.url,
+      params,
     });
     return response.data;
   }

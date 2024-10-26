@@ -1,4 +1,4 @@
-import { Batch } from "@/domain/models/Batch";
+import { Batch } from "@/domain/models/Batch/Batch";
 
 export interface GetBatchesInput {
   page: number;

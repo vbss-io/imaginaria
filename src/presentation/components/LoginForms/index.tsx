@@ -1,4 +1,4 @@
-import { Login } from "@/application/usecases/Login";
+import { Login } from "@/application/usecases/Auth/Login";
 import { Loading } from "@/presentation/components/Loading";
 import { useAuth } from "@/presentation/hooks/use-auth";
 import { zodResolver } from "@hookform/resolvers/zod";

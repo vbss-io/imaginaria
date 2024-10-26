@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { GetImageDetails } from "@/application/usecases/GetImageDetails";
-import { ImageDetails as ImageDetailsModel } from "@/domain/models/ImageDetails";
+import { GetImageDetails } from "@/application/usecases/Image/GetImageDetails";
+import { ImageDetails as ImageDetailsModel } from "@/domain/models/Image/ImageDetails";
 import { Loading } from "@/presentation/components/Loading";
 
-import { DownloadImage } from "@/application/usecases/DownloadImage";
-import { LikeImage } from "@/application/usecases/LikeImage";
+import { DownloadImage } from "@/application/usecases/Image/DownloadImage";
+import { LikeImage } from "@/application/usecases/Image/LikeImage";
 import { LoadImage } from "@/presentation/components/Image";
 import { LoginForm } from "@/presentation/components/LoginForms";
 import { useAuth } from "@/presentation/hooks/use-auth";

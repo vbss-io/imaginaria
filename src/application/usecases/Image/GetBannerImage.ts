@@ -1,16 +1,16 @@
-import { GetImageFiltersOutput } from "@/application/usecases/dto/GetImageFilters.dto";
+import { GetBannerImageOutput } from "@/application/usecases/Image/dtos/GetBannerImage.dto";
 import { HttpClient } from "@/domain/http/HttpClient";
 import { Registry } from "@/infra/dependency-injection/Registry";
 
-export class GetImageFilters {
-  protected url = `${import.meta.env.VITE_AI_FACTORY}/image/filters`;
+export class GetBannerImage {
+  protected url = `${import.meta.env.VITE_AI_FACTORY}/image/banner`;
   httpClient: HttpClient;
 
   constructor() {
     this.httpClient = Registry.getInstance().inject("httpClient");
   }
 
-  async execute(): Promise<GetImageFiltersOutput> {
+  async execute(): Promise<GetBannerImageOutput> {
     const response = await this.httpClient.get({
       url: this.url,
     });
