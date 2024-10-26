@@ -29,6 +29,17 @@ export const FormContentContainer = styled("div", {
       width: "100%",
     },
   },
+
+  variants: {
+    first: {
+      true: {
+        justifyContent: "center",
+        "@xsm": {
+          flexWrap: "unset",
+        },
+      },
+    },
+  },
 });
 
 export const Select = styled("select", {
@@ -52,16 +63,6 @@ export const Select = styled("select", {
       backgroundColor: "red !important",
       boxShadow: "0 0 10px 100px #1882A8 inset",
     },
-  },
-});
-
-export const FormSubmitContainer = styled("div", {
-  gap: "1rem",
-  display: "flex",
-  justifyContent: "flex-end",
-
-  "@xsm": {
-    width: "fit-content !important",
   },
 });
 
