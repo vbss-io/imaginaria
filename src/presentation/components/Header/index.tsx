@@ -14,7 +14,6 @@ import { GetBannerImage } from "@/application/usecases/GetBannerImage";
 import { ImageDetails as ImageDetailsModel } from "@/domain/models/ImageDetails";
 import { MobileMenu } from "@/presentation/components/MobileMenu";
 import { useDarkMode } from "@/presentation/hooks/use-dark-mode";
-import { useTab } from "@/presentation/hooks/use-tab";
 
 import { ImageDetails } from "@/presentation/components/ImageDetails";
 import { LoginForm } from "@/presentation/components/LoginForms";
@@ -23,7 +22,6 @@ import * as S from "./styles";
 
 export const Header = () => {
   const { user, logout } = useAuth();
-  const { tab, setTab } = useTab();
   const { darkMode, setDarkMode } = useDarkMode();
   const [image, setImage] = useState<ImageDetailsModel>();
   const [showMenu, setShowMenu] = useState(false);
@@ -48,34 +46,54 @@ export const Header = () => {
         <S.HeaderButtons desktop>
           {user && (
             <Button
-              variant={tab === "batches" ? "secondary" : "primary"}
+              as="a"
+              href="/batches"
+              variant={
+                window.location.pathname.includes("batches")
+                  ? "secondary"
+                  : "primary"
+              }
               rounded="full"
-              onClick={() => setTab("batches")}
             >
               <Folders color="white" width="1.3rem" height="1.3rem" />
               Batches
             </Button>
           )}
           <Button
-            variant={tab === "images" ? "secondary" : "primary"}
+            as="a"
+            href="/images"
+            variant={
+              window.location.pathname.includes("images")
+                ? "secondary"
+                : "primary"
+            }
             rounded="full"
-            onClick={() => setTab("images")}
           >
             <Image color="white" width="1.3rem" height="1.3rem" />
             Imagens
           </Button>
           <Button
-            variant={tab === "videos" ? "secondary" : "primary"}
+            as="a"
+            href="/videos"
+            variant={
+              window.location.pathname.includes("videos")
+                ? "secondary"
+                : "primary"
+            }
             rounded="full"
-            onClick={() => setTab("videos")}
           >
             <Video color="white" width="1.3rem" height="1.3rem" />
             Vídeos
           </Button>
           <Button
-            variant={tab === "audios" ? "secondary" : "primary"}
+            as="a"
+            href="/audios"
+            variant={
+              window.location.pathname.includes("audios")
+                ? "secondary"
+                : "primary"
+            }
             rounded="full"
-            onClick={() => setTab("audios")}
           >
             <CassetteTape color="white" width="1.3rem" height="1.3rem" />
             Áudios

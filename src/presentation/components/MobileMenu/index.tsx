@@ -2,7 +2,6 @@ import { CassetteTape, Folders, Image, Video } from "@phosphor-icons/react";
 import { Button } from "vbss-ui";
 
 import { useAuth } from "@/presentation/hooks/use-auth";
-import { useTab } from "@/presentation/hooks/use-tab";
 import * as S from "./styles";
 
 interface MobileMenuProps {
@@ -11,7 +10,6 @@ interface MobileMenuProps {
 
 export const MobileMenu = ({ setShowMenu }: MobileMenuProps) => {
   const { user } = useAuth();
-  const { tab, setTab } = useTab();
   return (
     <S.Container>
       <S.Info>
@@ -20,46 +18,48 @@ export const MobileMenu = ({ setShowMenu }: MobileMenuProps) => {
       <S.Divider />
       {user && (
         <Button
-          variant={tab === "batches" ? "secondary" : "primary"}
+          as="a"
+          href="/batches"
+          variant={
+            window.location.pathname.includes("batches")
+              ? "secondary"
+              : "primary"
+          }
           rounded="full"
-          onClick={() => {
-            setTab("batches");
-            setShowMenu(false);
-          }}
         >
           <Folders color="white" width="1.3rem" height="1.3rem" />
           Batches
         </Button>
       )}
       <Button
-        variant={tab === "images" ? "secondary" : "primary"}
+        as="a"
+        href="/images"
+        variant={
+          window.location.pathname.includes("images") ? "secondary" : "primary"
+        }
         rounded="full"
-        onClick={() => {
-          setTab("images");
-          setShowMenu(false);
-        }}
       >
         <Image color="white" width="1.3rem" height="1.3rem" />
         Imagens
       </Button>
       <Button
-        variant={tab === "videos" ? "secondary" : "primary"}
+        as="a"
+        href="/videos"
+        variant={
+          window.location.pathname.includes("videos") ? "secondary" : "primary"
+        }
         rounded="full"
-        onClick={() => {
-          setTab("videos");
-          setShowMenu(false);
-        }}
       >
         <Video color="white" width="1.3rem" height="1.3rem" />
         Vídeos
       </Button>
       <Button
-        variant={tab === "audios" ? "secondary" : "primary"}
+        as="a"
+        href="/audios"
+        variant={
+          window.location.pathname.includes("audios") ? "secondary" : "primary"
+        }
         rounded="full"
-        onClick={() => {
-          setTab("audios");
-          setShowMenu(false);
-        }}
       >
         <CassetteTape color="white" width="1.3rem" height="1.3rem" />
         Áudios
