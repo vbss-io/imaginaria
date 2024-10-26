@@ -13,11 +13,11 @@ export const Form = styled("form", {
 
   input: {
     width: "100%",
-    color: "$background",
+    color: "black",
   },
 
   svg: {
-    color: "$background",
+    color: "black",
   },
 
   label: {
