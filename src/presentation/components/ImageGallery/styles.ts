@@ -1,4 +1,4 @@
-import { Dialog } from "vbss-ui";
+import { Button, Chip, Dialog } from "vbss-ui";
 
 import { styled } from "@/presentation/config/stitches.config";
 
@@ -6,15 +6,12 @@ export const Container = styled("div", {
   width: "100%",
   display: "flex",
   justifyContent: "center",
-  overflow: "hidden",
-  minHeight: "calc(100vh - 25rem)",
 });
 
 export const Content = styled("div", {
   display: "flex",
   flexDirection: "column",
-  gap: "1rem",
-
+  minHeight: "calc(100vh - 25rem)",
   width: "95%",
 
   "@sm": {
@@ -27,8 +24,7 @@ export const Content = styled("div", {
 });
 
 export const MasonryWrapper = styled("div", {
-  overflowY: "hidden",
-  width: "100%",
+  overflow: "hidden",
   columnCount: 2,
 
   "@sm": {
@@ -39,7 +35,7 @@ export const MasonryWrapper = styled("div", {
     columnCount: 4,
   },
 
-  "@lg": {
+  "@xlg": {
     columnCount: 5,
   },
 });
@@ -59,8 +55,29 @@ export const ImageDialog = styled(Dialog, {
   },
 });
 
-export const ImageDialogTrigger = styled("div", {
-  paddingBottom: "1rem",
+export const ImageDialogTrigger = styled(Button, {
+  all: "unset",
+  position: "relative",
+
+  img: {
+    borderRadius: "0.5rem",
+    marginBottom: "1rem",
+  },
+
+  "&:hover": {
+    all: "unset",
+    position: "relative",
+    cursor: "pointer",
+  },
+
+  variants: {
+    hide: {
+      true: {
+        display: "none",
+        height: 0,
+      },
+    },
+  },
 });
 
 export const NoData = styled("div", {
@@ -73,4 +90,11 @@ export const NoData = styled("div", {
   lineHeight: "1.5rem",
   fontWeight: "bold",
   color: "$primary",
+});
+
+export const NewChip = styled(Chip, {
+  position: "absolute",
+  top: 0,
+  right: 0,
+  margin: "0.25rem",
 });
