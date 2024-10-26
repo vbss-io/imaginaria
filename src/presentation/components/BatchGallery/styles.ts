@@ -6,11 +6,10 @@ export const Container = styled("div", {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  overflowX: "hidden",
-  minHeight: "calc(100vh - 25rem)",
 });
 
 export const Content = styled("div", {
+  minHeight: "calc(100vh - 25rem)",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
