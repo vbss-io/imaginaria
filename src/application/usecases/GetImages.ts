@@ -3,6 +3,7 @@ import {
   type GetImagesOutput,
 } from "@/application/usecases/dto/GetImages.dto";
 import { HttpClient } from "@/domain/http/HttpClient";
+import { Image } from "@/domain/models/Image";
 import { Registry } from "@/infra/dependency-injection/Registry";
 
 export class GetImages {
@@ -18,6 +19,14 @@ export class GetImages {
       url: this.url,
       params,
     });
-    return response.data;
+    const imagesWithNew = response.data?.map((image: Image) => {
+      const createdAt = new Date(image.createdAt);
+      const isNew =
+        Math.abs(createdAt.getTime() - new Date().getTime()) <=
+        24 * 60 * 60 * 1000;
+      return { ...image, isNew };
+    });
+    console.log(imagesWithNew);
+    return imagesWithNew;
   }
 }
