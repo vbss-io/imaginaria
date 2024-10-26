@@ -3,6 +3,7 @@ import { styled } from "@/presentation/config/stitches.config";
 export const FormContainer = styled("div", {
   width: "100%",
   display: "flex",
+  paddingBottom: "1rem",
 });
 
 export const Form = styled("form", {
@@ -29,6 +30,17 @@ export const FormContentContainer = styled("div", {
       width: "100%",
     },
   },
+
+  variants: {
+    first: {
+      true: {
+        justifyContent: "center",
+        "@xsm": {
+          flexWrap: "unset",
+        },
+      },
+    },
+  },
 });
 
 export const Select = styled("select", {
@@ -45,16 +57,6 @@ export const Select = styled("select", {
 
   "@md": {
     width: "100%",
-  },
-});
-
-export const FormSubmitContainer = styled("div", {
-  gap: "1rem",
-  display: "flex",
-  justifyContent: "flex-end",
-
-  "@xsm": {
-    width: "fit-content !important",
   },
 });
 
