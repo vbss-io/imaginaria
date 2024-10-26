@@ -1,4 +1,4 @@
-import { Dialog } from "vbss-ui";
+import { Button, Dialog } from "vbss-ui";
 
 import { styled } from "@/presentation/config/stitches.config";
 
@@ -126,9 +126,36 @@ export const ModalFooter = styled("div", {
 export const ModalFooterButtons = styled("div", {
   display: "flex",
   gap: "1rem",
-  flexDirection: "column",
+  // flexDirection: "column",
+  flexWrap: "wrap",
+  justifyContent: "center",
 
   "@md": {
     flexDirection: "row",
+  },
+});
+
+export const CopyButton = styled(Button, {
+  position: "relative",
+});
+
+export const CopyTooltip = styled("div", {
+  position: "absolute",
+  top: "-2rem",
+  left: "-1.25rem",
+  display: "flex",
+  backgroundColor: "$secondary",
+  fontSize: "0.8rem",
+  lineHeight: "0.75rem",
+  padding: "0.25rem 0.5rem",
+  borderRadius: "0.25rem",
+});
+
+export const LoginDialog = styled(Dialog, {
+  backgroundColor: "$background",
+  color: "$text",
+
+  h2: {
+    color: "$text",
   },
 });

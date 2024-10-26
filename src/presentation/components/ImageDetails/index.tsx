@@ -5,8 +5,17 @@ import { ImageDetails as ImageDetailsModel } from "@/domain/models/ImageDetails"
 import { Loading } from "@/presentation/components/Loading";
 
 import { DownloadImage } from "@/application/usecases/DownloadImage";
+import { LikeImage } from "@/application/usecases/LikeImage";
 import { LoadImage } from "@/presentation/components/Image";
-import { DownloadSimple, Info } from "@phosphor-icons/react";
+import { LoginForm } from "@/presentation/components/LoginForms";
+import { useAuth } from "@/presentation/hooks/use-auth";
+import {
+  DownloadSimple,
+  Heart,
+  Info,
+  ShareNetwork,
+} from "@phosphor-icons/react";
+import { useNavigate } from "react-router-dom";
 import { Button, Chips } from "vbss-ui";
 import * as S from "./styles";
 
@@ -15,19 +24,55 @@ interface ImageDetailsProps {
 }
 
 export const ImageDetails = ({ id }: ImageDetailsProps) => {
+  const { user } = useAuth();
   const [image, setImage] = useState<ImageDetailsModel>();
   const [isLoading, setIsLoading] = useState(true);
+  const [showCopyTooltip, setShowCopyTooltip] = useState(false);
+  const [userLiked, setUserLiked] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getImageDetails = new GetImageDetails();
     const loadImage = async () => {
       const image = await getImageDetails.execute({ id });
+      if (!image.id) return navigate("/images");
       setImage(image);
+      setUserLiked(image.userLiked);
     };
     setIsLoading(true);
     loadImage();
     setIsLoading(false);
-  }, [id]);
+  }, [id, navigate]);
+
+  useEffect(() => {
+    const imageDetails = document.getElementById("imageDetails");
+    const closeButton = imageDetails?.nextElementSibling as HTMLButtonElement;
+    if (closeButton) {
+      const originalOnClick = closeButton.onclick;
+      closeButton.onclick = function (event) {
+        originalOnClick?.call(this, event);
+        navigate("/images");
+      };
+    }
+  });
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const imageDetailsDialog =
+        document.getElementById("imageDetails")?.parentElement;
+      if (
+        image &&
+        imageDetailsDialog &&
+        !imageDetailsDialog.contains(event.target as Node)
+      ) {
+        navigate("/images");
+      }
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [image, navigate]);
 
   const handleDownloadImage = async (url: string, id: string) => {
     const downloadImage = new DownloadImage();
@@ -41,8 +86,26 @@ export const ImageDetails = ({ id }: ImageDetailsProps) => {
     a.remove();
   };
 
+  const handleLikeImage = async (id: string) => {
+    const likeImage = new LikeImage();
+    await likeImage.execute({ id });
+    setUserLiked(!userLiked);
+  };
+
+  const handleCopyImageLink = async () => {
+    setShowCopyTooltip(true);
+    navigator.clipboard.writeText(window.location.href);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowCopyTooltip(false);
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, [showCopyTooltip]);
+
   return (
-    <S.Container>
+    <S.Container id="imageDetails">
       {isLoading && <Loading />}
       {image && !isLoading && (
         <S.ModalContent>
@@ -56,13 +119,39 @@ export const ImageDetails = ({ id }: ImageDetailsProps) => {
               chips={[image.origin, image.modelName]}
             />
             <S.ModalFooterButtons>
+              {!user ? (
+                <S.LoginDialog
+                  title="Login"
+                  description="Faça login para curtir imagens!"
+                  trigger={
+                    <Button as="div">
+                      <Heart color="white" width="1.3rem" height="1.3rem" />
+                    </Button>
+                  }
+                >
+                  <LoginForm />
+                </S.LoginDialog>
+              ) : (
+                <Button onClick={async () => await handleLikeImage(image.id)}>
+                  <Heart
+                    color="white"
+                    weight={userLiked ? "fill" : "regular"}
+                    width="1.3rem"
+                    height="1.3rem"
+                  />
+                </Button>
+              )}
+              <S.CopyButton onClick={handleCopyImageLink}>
+                {showCopyTooltip && <S.CopyTooltip>Link Copiado</S.CopyTooltip>}
+                <ShareNetwork color="white" width="1.3rem" height="1.3rem" />
+              </S.CopyButton>
               <S.DetailsDialog
                 title="Detalhes da Imagem"
                 description="Detalhes da Imagem"
                 trigger={
                   <Button as="div">
                     <Info color="white" width="1.3rem" height="1.3rem" />
-                    Mais Informações
+                    Informações
                   </Button>
                 }
               >
@@ -145,7 +234,7 @@ export const ImageDetails = ({ id }: ImageDetailsProps) => {
                 }
               >
                 <DownloadSimple color="white" width="1.3rem" height="1.3rem" />
-                Fazer Download
+                Download
               </Button>
             </S.ModalFooterButtons>
           </S.ModalFooter>
