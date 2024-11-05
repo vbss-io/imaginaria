@@ -1,29 +1,100 @@
+import { Button, Chip, Dialog } from "vbss-ui";
+
 import { styled } from "@/presentation/config/stitches.config";
 
-export const Container = styled('div', {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.5rem',
-  justifyContent: 'center',
-  alignItems: 'center',
-  height: 'calc(100vh - 20rem)'
+export const Container = styled("div", {
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
 });
 
-export const Text = styled('p', {
-  fontSize: '1.2rem',
-  color: '$text'
-})
+export const Content = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  minHeight: "calc(100vh - 25rem)",
+  width: "95%",
 
-export const Title = styled('h1', {
-  fontSize: '3rem',
-  lineHeight: '3rem',
-  fontWeight: 'bold',
-  color: '$secondary'
-})
+  "@sm": {
+    width: "90%",
+  },
 
-export const SubTitle = styled('h2', {
-  fontSize: '1.5rem',
-  lineHeight: '1.5rem',
-  fontWeight: 'bold',
-  color: '$primary'
-})
+  "@lg": {
+    width: "80%",
+  },
+});
+
+export const MasonryWrapper = styled("div", {
+  overflow: "hidden",
+  columnCount: 2,
+
+  "@sm": {
+    columnCount: 3,
+  },
+
+  "@md": {
+    columnCount: 4,
+  },
+
+  "@xlg": {
+    columnCount: 5,
+  },
+});
+
+export const VideoDialog = styled(Dialog, {
+  backgroundColor: "$background",
+  color: "$text",
+  maxHeight: "95vh",
+  maxWidth: "90vw",
+
+  h2: {
+    color: "$background",
+  },
+
+  p: {
+    display: "none",
+  },
+});
+
+export const VideoDialogTrigger = styled(Button, {
+  all: "unset",
+  position: "relative",
+
+  img: {
+    borderRadius: "0.5rem",
+    marginBottom: "1rem",
+  },
+
+  "&:hover": {
+    all: "unset",
+    position: "relative",
+    cursor: "pointer",
+  },
+
+  variants: {
+    hide: {
+      true: {
+        display: "none",
+        height: 0,
+      },
+    },
+  },
+});
+
+export const NoData = styled("div", {
+  width: "100%",
+  height: "calc(100vh - 25rem)",
+  justifyContent: "center",
+  display: "flex",
+  alignItems: "center",
+  fontSize: "1.5rem",
+  lineHeight: "1.5rem",
+  fontWeight: "bold",
+  color: "$primary",
+});
+
+export const NewChip = styled(Chip, {
+  position: "absolute",
+  top: 0,
+  right: 0,
+  margin: "0.25rem",
+});
