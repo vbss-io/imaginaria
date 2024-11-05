@@ -8,6 +8,7 @@ interface ImageProps {
   src: string;
   alt: string;
 }
+
 export const LoadImage = ({ src, alt }: ImageProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
