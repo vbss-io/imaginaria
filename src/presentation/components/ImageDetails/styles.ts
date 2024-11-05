@@ -1,4 +1,4 @@
-import { Button, Dialog } from "vbss-ui";
+import { Button, Chips, Dialog } from "vbss-ui";
 
 import { styled } from "@/presentation/config/stitches.config";
 
@@ -19,7 +19,7 @@ export const ModalContent = styled("div", {
     maxHeight: "60vh",
 
     "@md": {
-      maxHeight: "80vh",
+      maxHeight: "75vh",
     },
   },
 });
@@ -68,7 +68,7 @@ export const DetailsHeaderInfo = styled("div", {
   display: "flex",
   flexDirection: "column",
   color: "white",
-  gap: "1rem",
+  gap: "0.25rem",
 });
 
 export const DetailsHeaderInfoCard = styled("div", {
@@ -123,15 +123,22 @@ export const ModalFooter = styled("div", {
   },
 });
 
+export const ModalFooterChips = styled(Chips, {
+  display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "center",
+  gap: "0.5rem",
+});
+
 export const ModalFooterButtons = styled("div", {
   display: "flex",
   gap: "1rem",
-  // flexDirection: "column",
   flexWrap: "wrap",
   justifyContent: "center",
 
   "@md": {
     flexDirection: "row",
+    flexWrap: "nowrap",
   },
 });
 
@@ -151,11 +158,17 @@ export const CopyTooltip = styled("div", {
   borderRadius: "0.25rem",
 });
 
-export const LoginDialog = styled(Dialog, {
+export const CustomDialog = styled(Dialog, {
   backgroundColor: "$background",
   color: "$text",
 
   h2: {
     color: "$text",
   },
+});
+
+export const Message = styled("div", {
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
 });
