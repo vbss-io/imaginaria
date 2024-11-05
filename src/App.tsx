@@ -5,15 +5,14 @@ import { Footer } from "@/presentation/components/Footer";
 import { Header } from "@/presentation/components/Header";
 import { Loading } from "@/presentation/components/Loading";
 import { Root } from "@/presentation/config/stitches.config";
+import { AuthProvider } from "@/presentation/contexts/auth-context";
 import { DarkModeProvider } from "@/presentation/contexts/dark-mode-context.tsx";
+import { Audios } from "@/presentation/pages/Audios";
+import { Batches } from "@/presentation/pages/Batches";
+import { Home } from "@/presentation/pages/Home";
+import { Images } from "@/presentation/pages/Images";
 import { NotFound } from "@/presentation/pages/NotFound";
-import { ImageGallery } from "./presentation/components/ImageGallery";
-import { AuthProvider } from "./presentation/contexts/auth-context";
-import { Audios } from "./presentation/pages/Audios";
-import { Batches } from "./presentation/pages/Batches";
-import { Home } from "./presentation/pages/Home";
-import { Images } from "./presentation/pages/Images";
-import { Videos } from "./presentation/pages/Videos";
+import { Videos } from "@/presentation/pages/Videos";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +22,16 @@ const router = createBrowserRouter([
   {
     path: "/batches",
     element: <Batches />,
+    children: [
+      {
+        path: "/batches/images/:id",
+        element: <></>,
+      },
+      {
+        path: "/batches/videos/:id",
+        element: <></>,
+      },
+    ],
   },
   {
     path: "/images",
@@ -30,13 +39,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/images/:id",
-        element: <ImageGallery />,
+        element: <></>,
       },
     ],
   },
   {
     path: "/videos",
     element: <Videos />,
+    children: [
+      {
+        path: "/videos/:id",
+        element: <></>,
+      },
+    ],
   },
   {
     path: "/audios",
