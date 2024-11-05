@@ -53,13 +53,48 @@ export const BatchDetailsHeader = styled("div", {
   borderRadius: "1rem",
   flexDirection: "column",
 
+  "@md": {
+    flexDirection: "row",
+  },
+});
+
+export const MediaContainer = styled("div", {
+  position: "relative",
+  display: "flex",
+  gap: "1rem",
+
   img: {
-    height: "10rem",
+    maxWidth: "10rem",
+    height: "auto",
+    maxHeight: "10rem",
+    width: "auto",
+    borderRadius: "1rem",
+  },
+
+  video: {
+    maxWidth: "10rem",
+    height: "auto",
+    maxHeight: "10rem",
+    width: "auto",
     borderRadius: "1rem",
   },
 
   "@md": {
     flexDirection: "row",
+  },
+});
+
+export const TypeTag = styled("div", {
+  position: "absolute",
+  top: 0,
+  left: 0,
+  height: "1.25rem",
+  width: "1.25rem",
+  margin: "0.5rem",
+
+  svg: {
+    width: "100%",
+    height: "100%",
   },
 });
 
@@ -152,4 +187,19 @@ export const NoData = styled("div", {
   lineHeight: "1.5rem",
   fontWeight: "bold",
   color: "$primary",
+});
+
+export const MediaDialog = styled(Dialog, {
+  backgroundColor: "$background",
+  color: "$text",
+  maxHeight: "95vh",
+  maxWidth: "90vw",
+
+  h2: {
+    color: "$background",
+  },
+
+  p: {
+    display: "none",
+  },
 });

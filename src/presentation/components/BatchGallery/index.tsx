@@ -1,3 +1,4 @@
+import { Image, Video } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 
 import { Batch as BatchModel } from "@/domain/models/Batch/Batch";
@@ -6,8 +7,11 @@ import { DeleteBatch } from "@/application/usecases/Batch/DeleteBatch";
 import { GetBatchesInput } from "@/application/usecases/Batch/dtos/GetBatches.dto";
 import { GetBatches } from "@/application/usecases/Batch/GetBatches";
 import { BatchFilters } from "@/presentation/components/BatchFilters";
+import { ImageDetails } from "@/presentation/components/ImageDetails";
 import { Loading } from "@/presentation/components/Loading";
+import { VideoDetails } from "@/presentation/components/VideoDetails";
 import { useAuth } from "@/presentation/hooks/use-auth";
+import { useNavigate } from "react-router-dom";
 import { Button } from "vbss-ui";
 import * as S from "./styles";
 
@@ -20,6 +24,7 @@ export const BatchGallery = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const page = useRef<number>(0);
   const hasMore = useRef(true);
+  const navigate = useNavigate();
 
   const getBatches = async (scroll?: boolean) => {
     if (!scroll) setIsLoading(true);
@@ -87,10 +92,51 @@ export const BatchGallery = () => {
                 <S.BatchDetailsHeader>
                   <S.Status status={batch.status}>{batch.status}</S.Status>
                   {batch.images.map((image) => (
-                    <img
-                      key={image}
-                      src={`${import.meta.env.VITE_CDN}${image}`}
-                    />
+                    <S.MediaDialog
+                      key={image.id}
+                      trigger={
+                        <S.MediaContainer
+                          onClick={() =>
+                            navigate(`/batches/images/${image.id}`)
+                          }
+                        >
+                          <S.TypeTag>
+                            <Image fill="white" />
+                          </S.TypeTag>
+                          <img
+                            key={image.id}
+                            src={`${import.meta.env.VITE_CDN}${image.path}`}
+                          />
+                        </S.MediaContainer>
+                      }
+                      title="Imagem"
+                      description="Detalhe da Imagem"
+                    >
+                      <ImageDetails id={image.id} backPath="/batches" />
+                    </S.MediaDialog>
+                  ))}
+                  {batch.videos.map((video) => (
+                    <S.MediaDialog
+                      key={video.id}
+                      trigger={
+                        <S.MediaContainer
+                          onClick={() =>
+                            navigate(`/batches/videos/${video.id}`)
+                          }
+                        >
+                          <S.TypeTag>
+                            <Video fill="white" />
+                          </S.TypeTag>
+                          <video
+                            src={`${import.meta.env.VITE_CDN}${video.path}`}
+                          />
+                        </S.MediaContainer>
+                      }
+                      title="Video"
+                      description="Detalhe do Video"
+                    >
+                      <VideoDetails id={video.id} backPath="/batches" />
+                    </S.MediaDialog>
                   ))}
                   <S.BatchDetailsHeaderInfo>
                     <S.BatchDetailsInfoCard>
@@ -143,6 +189,14 @@ export const BatchGallery = () => {
                     </S.BatchDetailsInfoCard>
                   )}
                   <S.BatchDetailsInfoCard>
+                    <strong>Geração:</strong>
+                    <span>{batch.automatic ? "Automática" : "Manual"}</span>
+                  </S.BatchDetailsInfoCard>
+                  <S.BatchDetailsInfoCard>
+                    <strong>Autor:</strong>
+                    <span>{batch.authorName}</span>
+                  </S.BatchDetailsInfoCard>
+                  <S.BatchDetailsInfoCard>
                     <strong>Criação:</strong>
                     <span>
                       {new Date(batch.createdAt).toLocaleDateString()}
@@ -161,7 +215,7 @@ export const BatchGallery = () => {
                     </S.BatchDetailsInfoCard>
                   )}
                 </S.BatchDetailsContent>
-                {user?.isAdmin && (
+                {(user?.isAdmin || batch.owner) && (
                   <S.BatchActions>
                     <S.DeleteDialog
                       title="Excluir Batch"
