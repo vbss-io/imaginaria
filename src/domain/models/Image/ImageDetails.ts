@@ -15,4 +15,7 @@ export interface ImageDetails {
   modelName: string;
   isNew: boolean;
   userLiked: boolean;
+  owner: boolean;
+  authorName: string;
+  automatic: boolean;
 }

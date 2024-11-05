@@ -1,3 +1,8 @@
+export type BatchMedia = Array<{
+  id: string;
+  path: string;
+}>;
+
 export interface Batch {
   id: string;
   prompt: string;
@@ -9,8 +14,12 @@ export interface Batch {
   createdAt: string;
   updatedAt: string;
   status: "queued" | "processing" | "processed" | "error";
-  images: Array<string>;
+  images: BatchMedia;
+  videos: BatchMedia;
   origin: string;
   modelName: string;
+  owner: boolean;
+  authorName: string;
+  automatic: boolean;
   errorMessage?: string;
 }
