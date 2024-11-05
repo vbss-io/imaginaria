@@ -26,7 +26,6 @@ export class GetImages {
         24 * 60 * 60 * 1000;
       return { ...image, isNew };
     });
-    console.log(imagesWithNew);
     return imagesWithNew;
   }
 }
