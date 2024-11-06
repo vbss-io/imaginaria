@@ -1,6 +1,6 @@
 import { GetVideoFiltersOutput } from "@/application/usecases/Video/dtos/GetVideoFilters.dto";
 import { GetVideoFilters } from "@/application/usecases/Video/GetVideoFilters";
-import { Loading } from "@/presentation/components/Loading";
+import { Loading } from "@/presentation/components/General/Loading";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eraser, Funnel, MagnifyingGlass } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";

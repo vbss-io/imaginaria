@@ -1,4 +1,4 @@
-import { AudioGallery } from "@/presentation/components/AudioGallery";
+import { AudioGallery } from "@/presentation/components/Audios/AudioGallery";
 
 export const Audios = () => {
   return (

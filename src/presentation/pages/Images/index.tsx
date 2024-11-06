@@ -1,4 +1,4 @@
-import { ImageGallery } from "@/presentation/components/ImageGallery";
+import { ImageGallery } from "@/presentation/components/Images/ImageGallery";
 
 export const Images = () => {
   return (

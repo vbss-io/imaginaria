@@ -1,4 +1,4 @@
-import { Loading } from "@/presentation/components/Loading";
+import { Loading } from "@/presentation/components/General/Loading";
 import { useEffect, useRef, useState } from "react";
 
 import { PlayCircle } from "@phosphor-icons/react";

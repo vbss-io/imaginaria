@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { registerDependencies } from "@/infra/dependency-injection/Register";
-import { Footer } from "@/presentation/components/Footer";
-import { Header } from "@/presentation/components/Header";
-import { Loading } from "@/presentation/components/Loading";
+import { Footer } from "@/presentation/components/General/Footer";
+import { Header } from "@/presentation/components/General/Header";
+import { Loading } from "@/presentation/components/General/Loading";
 import { Root } from "@/presentation/config/stitches.config";
 import { AuthProvider } from "@/presentation/contexts/auth-context";
 import { DarkModeProvider } from "@/presentation/contexts/dark-mode-context.tsx";

@@ -4,9 +4,9 @@ import { GetImages } from "@/application/usecases/Image/GetImages";
 import { Image as ImageModel } from "@/domain/models/Image/Image";
 
 import { GetImagesInput } from "@/application/usecases/Image/dtos/GetImages.dto";
-import { ImageDetails } from "@/presentation/components/ImageDetails";
-import { ImageFilters } from "@/presentation/components/ImageFilters";
-import { LoadImage } from "@/presentation/components/LoadImage";
+import { ImageDetails } from "@/presentation/components/Images/ImageDetails";
+import { ImageFilters } from "@/presentation/components/Images/ImageFilters";
+import { LoadImage } from "@/presentation/components/Images/LoadImage";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./styles";
 

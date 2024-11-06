@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Loading } from "@/presentation/components/Loading";
+import { Loading } from "@/presentation/components/General/Loading";
 
 import * as S from "./styles";
 

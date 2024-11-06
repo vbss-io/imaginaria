@@ -1,6 +1,6 @@
 import { GetImageFiltersOutput } from "@/application/usecases/Image/dtos/GetImageFilters.dto";
 import { GetImageFilters } from "@/application/usecases/Image/GetImageFilter";
-import { Loading } from "@/presentation/components/Loading";
+import { Loading } from "@/presentation/components/General/Loading";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eraser, Funnel, MagnifyingGlass } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";

@@ -12,11 +12,11 @@ import { Button, Switch, Tooltip } from "vbss-ui";
 
 import { GetBannerImage } from "@/application/usecases/Image/GetBannerImage";
 import { ImageDetails as ImageDetailsModel } from "@/domain/models/Image/ImageDetails";
-import { MobileMenu } from "@/presentation/components/MobileMenu";
+import { MobileMenu } from "@/presentation/components/General/MobileMenu";
 import { useDarkMode } from "@/presentation/hooks/use-dark-mode";
 
-import { ImageDetails } from "@/presentation/components/ImageDetails";
-import { LoginForm } from "@/presentation/components/LoginForms";
+import { LoginForm } from "@/presentation/components/General/LoginForms";
+import { ImageDetails } from "@/presentation/components/Images/ImageDetails";
 import { useAuth } from "@/presentation/hooks/use-auth";
 import * as S from "./styles";
 

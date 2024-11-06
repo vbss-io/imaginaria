@@ -1,4 +1,4 @@
-import { BatchGallery } from "@/presentation/components/BatchGallery";
+import { BatchGallery } from "@/presentation/components/Batches/BatchGallery";
 import { useAuth } from "@/presentation/hooks/use-auth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";

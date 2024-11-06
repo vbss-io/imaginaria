@@ -1,4 +1,4 @@
-import { VideoGallery } from "@/presentation/components/VideoGallery";
+import { VideoGallery } from "@/presentation/components/Videos/VideoGallery";
 
 export const Videos = () => {
   return (

@@ -1,5 +1,5 @@
 import { Login } from "@/application/usecases/Auth/Login";
-import { Loading } from "@/presentation/components/Loading";
+import { Loading } from "@/presentation/components/General/Loading";
 import { useAuth } from "@/presentation/hooks/use-auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignIn } from "@phosphor-icons/react";

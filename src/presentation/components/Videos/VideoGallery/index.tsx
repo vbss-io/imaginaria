@@ -5,9 +5,9 @@ import { useEffect, useRef, useState } from "react";
 // import { ImageDetails } from "@/presentation/components/ImageDetails";
 // import { ImageFilters } from "@/presentation/components/ImageFilters";
 import { GetVideos } from "@/application/usecases/Video/GetVideos";
-import { LoadVideo } from "@/presentation/components/LoadVideo";
-import { VideoDetails } from "@/presentation/components/VideoDetails";
-import { VideoFilters } from "@/presentation/components/VideoFilters";
+import { LoadVideo } from "@/presentation/components/Videos/LoadVideo";
+import { VideoDetails } from "@/presentation/components/Videos/VideoDetails";
+import { VideoFilters } from "@/presentation/components/Videos/VideoFilters";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./styles";
 

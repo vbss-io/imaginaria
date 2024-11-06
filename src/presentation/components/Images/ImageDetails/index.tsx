@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 
-import { DeleteVideo } from "@/application/usecases/Video/DeleteVideo";
-import { DownloadVideo } from "@/application/usecases/Video/DownloadVideo";
-import { GetVideoDetails } from "@/application/usecases/Video/GetVideoDetails";
-import { LikeVideo } from "@/application/usecases/Video/LikeVideo";
-import { VideoDetails as VideoDetailsModel } from "@/domain/models/Video/VideoDetails";
-import { Loading } from "@/presentation/components/Loading";
-import { LoadVideo } from "@/presentation/components/LoadVideo";
-import { LoginForm } from "@/presentation/components/LoginForms";
+import { GetImageDetails } from "@/application/usecases/Image/GetImageDetails";
+import { ImageDetails as ImageDetailsModel } from "@/domain/models/Image/ImageDetails";
+import { Loading } from "@/presentation/components/General/Loading";
+
+import { DeleteImage } from "@/application/usecases/Image/DeleteImage";
+import { DownloadImage } from "@/application/usecases/Image/DownloadImage";
+import { LikeImage } from "@/application/usecases/Image/LikeImage";
+import { LoginForm } from "@/presentation/components/General/LoginForms";
+import { LoadImage } from "@/presentation/components/Images/LoadImage";
 import { useAuth } from "@/presentation/hooks/use-auth";
 import {
   DownloadSimple,
@@ -20,17 +21,17 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "vbss-ui";
 import * as S from "./styles";
 
-interface VideoDetailsProps {
+interface ImageDetailsProps {
   id: string;
   backPath?: string;
 }
 
-export const VideoDetails = ({
+export const ImageDetails = ({
   id,
-  backPath = "/videos",
-}: VideoDetailsProps) => {
+  backPath = "/images",
+}: ImageDetailsProps) => {
   const { user } = useAuth();
-  const [video, setVideo] = useState<VideoDetailsModel | null>();
+  const [image, setImage] = useState<ImageDetailsModel | null>();
   const [isLoading, setIsLoading] = useState(true);
   const [showCopyTooltip, setShowCopyTooltip] = useState(false);
   const [userLiked, setUserLiked] = useState(false);
@@ -38,28 +39,28 @@ export const VideoDetails = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getVideoDetails = new GetVideoDetails();
-    const loadVideo = async () => {
-      const video = await getVideoDetails.execute({ id });
-      if (!video.id) {
-        setMessage("Não foi possivel encontrar o video.");
+    const getImageDetails = new GetImageDetails();
+    const loadImage = async () => {
+      const image = await getImageDetails.execute({ id });
+      if (!image.id) {
+        setMessage("Não foi possivel encontrar a imagem.");
         return navigate(backPath);
       }
-      setVideo(video);
-      setUserLiked(video.userLiked);
+      setImage(image);
+      setUserLiked(image.userLiked);
     };
     setIsLoading(true);
-    loadVideo();
+    loadImage();
     setIsLoading(false);
   }, [backPath, id, navigate]);
 
   useEffect(() => {
-    const videoDetails = document.getElementById("videoDetails");
-    const closeButton = videoDetails?.nextElementSibling as HTMLButtonElement;
+    const imageDetails = document.getElementById("imageDetails");
+    const closeButton = imageDetails?.nextElementSibling as HTMLButtonElement;
     if (closeButton) {
       const originalOnClick = closeButton.onclick;
-      closeButton.onclick = function (event) {
-        originalOnClick?.call(this, event);
+      closeButton.onclick = async function (event) {
+        await originalOnClick?.call(this, event);
         navigate(backPath);
       };
     }
@@ -67,11 +68,11 @@ export const VideoDetails = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const videoDetailsDialog =
-        document.getElementById("videoDetails")?.parentElement;
+      const imageDetailsDialog =
+        document.getElementById("imageDetails")?.parentElement;
       if (
-        videoDetailsDialog &&
-        !videoDetailsDialog.contains(event.target as Node)
+        imageDetailsDialog &&
+        !imageDetailsDialog.contains(event.target as Node)
       ) {
         navigate(backPath);
       }
@@ -80,35 +81,35 @@ export const VideoDetails = ({
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [video, navigate, backPath]);
+  }, [backPath, image, navigate]);
 
-  const handleDownloadVideo = async (url: string, id: string) => {
-    const downloadVideo = new DownloadVideo();
-    const blob = await downloadVideo.execute({ url });
+  const handleDownloadImage = async (url: string, id: string) => {
+    const downloadImage = new DownloadImage();
+    const blob = await downloadImage.execute({ url });
     const downloadUrl = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = downloadUrl;
-    a.download = `${id}.mp4`;
+    a.download = `${id}.png`;
     document.body.appendChild(a);
     a.click();
     a.remove();
   };
 
-  const handleLikeVideo = async (id: string) => {
-    const likeVideo = new LikeVideo();
-    await likeVideo.execute({ id });
+  const handleLikeImage = async (id: string) => {
+    const likeImage = new LikeImage();
+    await likeImage.execute({ id });
     setUserLiked(!userLiked);
   };
 
-  const handleDeleteVideo = async (id: string) => {
-    setVideo(null);
-    const deleteVideo = new DeleteVideo();
-    await deleteVideo.execute({ id });
-    setMessage("Video excluido com sucesso.");
+  const handleDeleteImage = async (id: string) => {
+    setImage(null);
+    const deleteImage = new DeleteImage();
+    await deleteImage.execute({ id });
+    setMessage("Imagem excluida com sucesso.");
     navigate(backPath);
   };
 
-  const handleCopyVideoLink = async () => {
+  const handleCopyImageLink = async () => {
     setShowCopyTooltip(true);
     navigator.clipboard.writeText(window.location.href);
   };
@@ -121,12 +122,12 @@ export const VideoDetails = ({
   }, [showCopyTooltip]);
 
   return (
-    <S.Container id="videoDetails">
+    <S.Container id="imageDetails">
       {message && <S.Message>{message}</S.Message>}
       {isLoading && <Loading />}
-      {video && !isLoading && (
+      {image && !isLoading && (
         <S.ModalContent>
-          <LoadVideo src={video.path} alt="any" controls />
+          <LoadImage src={image.path} alt="any" />
           <S.ModalFooter>
             <S.ModalFooterChips
               chipsProps={{
@@ -134,17 +135,17 @@ export const VideoDetails = ({
                 size: "md",
               }}
               chips={[
-                video.origin,
-                video.modelName,
-                `Geração: ${video.automatic ? "Automática" : "Manual"}`,
-                `Autor: ${video.authorName}`,
+                image.origin,
+                image.modelName,
+                `Geração: ${image.automatic ? "Automática" : "Manual"}`,
+                `Autor: ${image.authorName}`,
               ]}
             />
             <S.ModalFooterButtons>
-              {user && video.owner && (
+              {user && image.owner && (
                 <S.CustomDialog
-                  title="Excluir Video"
-                  description="Não será possivel restaurar o video."
+                  title="Excluir Imagem"
+                  description="Não será possivel restaurar a imagem."
                   trigger={
                     <Button as="div">
                       <Trash color="white" width="1.3rem" height="1.3rem" />
@@ -152,7 +153,7 @@ export const VideoDetails = ({
                   }
                 >
                   <Button
-                    onClick={async () => await handleDeleteVideo(video.id)}
+                    onClick={async () => await handleDeleteImage(image.id)}
                   >
                     Confirmar
                   </Button>
@@ -161,7 +162,7 @@ export const VideoDetails = ({
               {!user ? (
                 <S.CustomDialog
                   title="Login"
-                  description="Faça login para curtir videos!"
+                  description="Faça login para curtir imagens!"
                   trigger={
                     <Button as="div">
                       <Heart color="white" width="1.3rem" height="1.3rem" />
@@ -171,7 +172,7 @@ export const VideoDetails = ({
                   <LoginForm />
                 </S.CustomDialog>
               ) : (
-                <Button onClick={async () => await handleLikeVideo(video.id)}>
+                <Button onClick={async () => await handleLikeImage(image.id)}>
                   <Heart
                     color="white"
                     weight={userLiked ? "fill" : "regular"}
@@ -180,23 +181,23 @@ export const VideoDetails = ({
                   />
                 </Button>
               )}
-              <S.CopyButton onClick={handleCopyVideoLink}>
+              <S.CopyButton onClick={handleCopyImageLink}>
                 {showCopyTooltip && <S.CopyTooltip>Link Copiado</S.CopyTooltip>}
                 <ShareNetwork color="white" width="1.3rem" height="1.3rem" />
               </S.CopyButton>
               <Button
                 onClick={() =>
-                  handleDownloadVideo(
-                    `${import.meta.env.VITE_CDN}${video.path}`,
-                    video.id
+                  handleDownloadImage(
+                    `${import.meta.env.VITE_CDN}${image.path}`,
+                    image.id
                   )
                 }
               >
                 <DownloadSimple color="white" width="1.3rem" height="1.3rem" />
               </Button>
               <S.DetailsDialog
-                title="Detalhes do Video"
-                description="Detalhes do Video"
+                title="Detalhes da Imagem"
+                description="Detalhes da Imagem"
                 trigger={
                   <Button as="div">
                     <Info color="white" width="1.3rem" height="1.3rem" />
@@ -206,49 +207,79 @@ export const VideoDetails = ({
               >
                 <S.DetailsContainer>
                   <S.DetailsHeader>
-                    <video src={`${import.meta.env.VITE_CDN}${video.path}`} />
+                    <img src={`${import.meta.env.VITE_CDN}${image.path}`} />
                     <S.DetailsHeaderInfo>
                       <S.DetailsHeaderInfoCard>
                         <span>Origem</span>
-                        <strong>{video.origin}</strong>
+                        <strong>{image.origin}</strong>
                       </S.DetailsHeaderInfoCard>
                       <S.DetailsHeaderInfoCard>
                         <span>Modelo</span>
-                        <strong>{video.modelName}</strong>
+                        <strong>{image.modelName}</strong>
                       </S.DetailsHeaderInfoCard>
                       <S.DetailsHeaderInfoCard>
                         <span>Autor</span>
-                        <strong>{video.authorName}</strong>
+                        <strong>{image.authorName}</strong>
                       </S.DetailsHeaderInfoCard>
                     </S.DetailsHeaderInfo>
                   </S.DetailsHeader>
                   <S.DetailsContent column>
                     <S.DetailsHeaderInfoCard>
                       <span>Prompt</span>
-                      <strong>{video.prompt}</strong>
+                      <strong>{image.prompt}</strong>
                     </S.DetailsHeaderInfoCard>
+                    {image.negativePrompt !== "none" && (
+                      <S.DetailsHeaderInfoCard>
+                        <span>Negative Prompt</span>
+                        <strong>{image.negativePrompt}</strong>
+                      </S.DetailsHeaderInfoCard>
+                    )}
                   </S.DetailsContent>
                   <S.DetailsContent>
                     <S.DetailsHeaderInfoCard>
                       <span>Dimensões</span>
                       <strong>
-                        {video.width} x {video.height}
+                        {image.width} x {image.height}
                       </strong>
                     </S.DetailsHeaderInfoCard>
                     <S.DetailsHeaderInfoCard>
                       <span>Proporção</span>
-                      <strong>{video.aspectRatio}</strong>
+                      <strong>{image.aspectRatio}</strong>
                     </S.DetailsHeaderInfoCard>
+                    {image.sampler !== "none" && (
+                      <S.DetailsHeaderInfoCard>
+                        <span>Sampler</span>
+                        <strong>{image.sampler}</strong>
+                      </S.DetailsHeaderInfoCard>
+                    )}
+                    {image.scheduler !== "none" && (
+                      <S.DetailsHeaderInfoCard>
+                        <span>Scheduler</span>
+                        <strong>{image.scheduler}</strong>
+                      </S.DetailsHeaderInfoCard>
+                    )}
+                    {image.steps !== 0 && (
+                      <S.DetailsHeaderInfoCard>
+                        <span>Steps</span>
+                        <strong>{image.steps}</strong>
+                      </S.DetailsHeaderInfoCard>
+                    )}
+                    {Number(image.seed) !== 0 && (
+                      <S.DetailsHeaderInfoCard>
+                        <span>Seed</span>
+                        <strong>{image.seed}</strong>
+                      </S.DetailsHeaderInfoCard>
+                    )}
                     <S.DetailsHeaderInfoCard>
                       <span>Geração:</span>
                       <strong>
-                        {video.automatic ? "Automática" : "Manual"}
+                        {image.automatic ? "Automática" : "Manual"}
                       </strong>
                     </S.DetailsHeaderInfoCard>
                     <S.DetailsHeaderInfoCard>
                       <span>Criação</span>
                       <strong>
-                        {new Date(video.createdAt).toLocaleDateString()}
+                        {new Date(image.createdAt).toLocaleDateString()}
                       </strong>
                     </S.DetailsHeaderInfoCard>
                   </S.DetailsContent>
