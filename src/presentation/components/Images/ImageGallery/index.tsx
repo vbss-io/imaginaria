@@ -1,16 +1,23 @@
-import { useEffect, useRef, useState } from "react";
-
+import { GetImagesInput } from "@/application/usecases/Image/dtos/GetImages.dto";
 import { GetImages } from "@/application/usecases/Image/GetImages";
 import { Image as ImageModel } from "@/domain/models/Image/Image";
-
-import { GetImagesInput } from "@/application/usecases/Image/dtos/GetImages.dto";
+import { ImageCardPreview } from "@/presentation/components/Images/ImageCardPreview";
 import { ImageDetails } from "@/presentation/components/Images/ImageDetails";
 import { ImageFilters } from "@/presentation/components/Images/ImageFilters";
-import { LoadImage } from "@/presentation/components/Images/LoadImage";
+import { useInfiniteScroll } from "@/presentation/hooks/use-infinite-scroll";
+import { useEffect, useRef, useState } from "react";
+import Masonry from "react-masonry-css";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./styles";
 
 type Images = ImageModel[];
+
+const MASONRY_BREAKPOINTS = {
+  700: 1,
+  1200: 2,
+  1600: 3,
+  default: 4,
+};
 
 export const ImageGallery = () => {
   const [images, setImages] = useState<Images>([]);
@@ -18,9 +25,12 @@ export const ImageGallery = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const clickId = useRef<boolean>(true);
   const page = useRef<number>(0);
-  const hasMore = useRef(true);
   const { id } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) navigate(`/image/${id}`);
+  }, []);
 
   const getImages = async (scroll?: boolean) => {
     if (!scroll) setIsLoading(true);
@@ -37,35 +47,20 @@ export const ImageGallery = () => {
     return responseImages;
   };
 
+  const { medias: scrollImages } = useInfiniteScroll({ getMedias: getImages });
+
   useEffect(() => {
     const loadImages = async () => {
       await getImages();
     };
-    hasMore.current = true;
     page.current = 0;
     loadImages();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
 
   useEffect(() => {
-    const handleScroll = async () => {
-      const scrollPosition = window.scrollY + window.innerHeight;
-      const pageHeight = document.documentElement.scrollHeight;
-      if (scrollPosition >= pageHeight && hasMore.current) {
-        const newImages = await getImages(true);
-        if (!newImages.length) {
-          hasMore.current = false;
-          return;
-        }
-        setImages((prev) => [...prev, ...newImages]);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters]);
+    if (scrollImages.length)
+      setImages((prev) => [...prev, ...(scrollImages as ImageModel[])]);
+  }, [scrollImages]);
 
   useEffect(() => {
     if (id && clickId.current) {
@@ -75,7 +70,6 @@ export const ImageGallery = () => {
         clickId.current = false;
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -85,19 +79,11 @@ export const ImageGallery = () => {
         {!isLoading && !images?.length && (
           <S.NoData>Nenhuma Imagem encontrada.</S.NoData>
         )}
-        {id && (
-          <S.ImageDialog
-            id="imageDialog"
-            trigger={
-              <S.ImageDialogTrigger as="div" id="imageDialogTrigger" hide />
-            }
-            title="Imagem"
-            description="Detalhe da Imagem"
-          >
-            <ImageDetails id={id} />
-          </S.ImageDialog>
-        )}
-        <S.MasonryWrapper>
+        <Masonry
+          className="masonry-grid"
+          columnClassName="masonry-grid-column"
+          breakpointCols={MASONRY_BREAKPOINTS}
+        >
           {images.map((image) => (
             <S.ImageDialog
               id="imageDialog"
@@ -107,17 +93,16 @@ export const ImageGallery = () => {
                   as="div"
                   onClick={() => navigate(`${image.id}`)}
                 >
-                  {image.isNew && <S.NewChip size="sm">New</S.NewChip>}
-                  <LoadImage src={image.path} alt="image" />
+                  <ImageCardPreview image={image} />
                 </S.ImageDialogTrigger>
               }
               title="Imagem"
               description="Detalhe da Imagem"
             >
-              <ImageDetails id={image.id} />
+              <ImageDetails isModal />
             </S.ImageDialog>
           ))}
-        </S.MasonryWrapper>
+        </Masonry>
       </S.Content>
     </S.Container>
   );
