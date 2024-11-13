@@ -17,6 +17,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.53.0",
+    "react-masonry-css": "^1.0.16",
     "react-router-dom": "^6.22.3",
     "vbss-ui": "^0.2.2",
     "zod": "^3.23.8"

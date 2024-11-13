@@ -22,5 +22,6 @@ module.exports = {
         prefix: "@",
       },
     ],
+    "react-hooks/exhaustive-deps": ["off"],
   },
 };
