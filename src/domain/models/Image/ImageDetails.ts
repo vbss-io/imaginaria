@@ -17,5 +17,6 @@ export interface ImageDetails {
   userLiked: boolean;
   owner: boolean;
   authorName: string;
+  authorAvatar: string;
   automatic: boolean;
 }

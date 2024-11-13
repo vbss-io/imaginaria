@@ -12,5 +12,6 @@ export interface VideoDetails {
   userLiked: boolean;
   owner: boolean;
   authorName: string;
+  authorAvatar: string;
   automatic: boolean;
 }
