@@ -1,8 +1,9 @@
 import { DownloadImage } from "@/application/usecases/Image/DownloadImage";
 import { DownloadVideo } from "@/application/usecases/Video/DownloadVideo";
+import { Loading } from "@/presentation/components/General/Loading";
 import { DownloadSimple } from "@phosphor-icons/react";
-import { Button } from "vbss-ui";
-
+import { useState } from "react";
+import * as S from "./styles";
 interface MediaDownloadProps {
   type: string;
   mediaId: string;
@@ -16,9 +17,11 @@ export const MediaDownload = ({
   mediaPath,
   small = false,
 }: MediaDownloadProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const mediaInfo = getMediaInfos(type);
 
   const handleDownloadMedia = async () => {
+    setIsLoading(true);
     const blob = await mediaInfo.downloadAction.execute({
       url: `${import.meta.env.VITE_CDN}${mediaPath}`,
     });
@@ -29,19 +32,26 @@ export const MediaDownload = ({
     document.body.appendChild(a);
     a.click();
     a.remove();
+    setIsLoading(false);
   };
 
   return (
-    <Button
-      onClick={(e) => {
+    <S.DownloadButton
+      onClick={(e: { preventDefault: () => void }) => {
         e.preventDefault();
         handleDownloadMedia();
       }}
       rounded={small ? "full" : "md"}
     >
-      <DownloadSimple color="white" width="1.3rem" height="1.3rem" />
-      {small ? "Baixar" : "Baixe Grátis"}
-    </Button>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <DownloadSimple color="white" width="1.3rem" height="1.3rem" />
+          {small ? "Baixar" : "Baixe Grátis"}
+        </>
+      )}
+    </S.DownloadButton>
   );
 };
 
