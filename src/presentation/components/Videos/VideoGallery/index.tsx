@@ -5,23 +5,34 @@ import { useEffect, useRef, useState } from "react";
 // import { ImageDetails } from "@/presentation/components/ImageDetails";
 // import { ImageFilters } from "@/presentation/components/ImageFilters";
 import { GetVideos } from "@/application/usecases/Video/GetVideos";
-import { LoadVideo } from "@/presentation/components/Videos/LoadVideo";
+import { VideoCardPreview } from "@/presentation/components/Videos/VideoCardPreview";
 import { VideoDetails } from "@/presentation/components/Videos/VideoDetails";
 import { VideoFilters } from "@/presentation/components/Videos/VideoFilters";
+import { useInfiniteScroll } from "@/presentation/hooks/use-infinite-scroll";
+import Masonry from "react-masonry-css";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./styles";
 
 type Videos = VideoModel[];
 
+const MASONRY_BREAKPOINTS = {
+  700: 1,
+  1200: 2,
+  1600: 3,
+  default: 4,
+};
+
 export const VideoGallery = () => {
   const [videos, setVideos] = useState<Videos>([]);
   const [filters, setFilters] = useState<Omit<GetVideosInput, "page">>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const clickId = useRef<boolean>(true);
   const page = useRef<number>(0);
-  const hasMore = useRef(true);
   const { id } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (id) navigate(`/video/${id}`);
+  }, []);
 
   const getVideos = async (scroll?: boolean) => {
     if (!scroll) setIsLoading(true);
@@ -38,46 +49,20 @@ export const VideoGallery = () => {
     return responseVideos;
   };
 
+  const { medias: scrollVideos } = useInfiniteScroll({ getMedias: getVideos });
+
   useEffect(() => {
     const loadVideos = async () => {
       await getVideos();
     };
-    hasMore.current = true;
     page.current = 0;
     loadVideos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters]);
 
   useEffect(() => {
-    const handleScroll = async () => {
-      const scrollPosition = window.scrollY + window.innerHeight;
-      const pageHeight = document.documentElement.scrollHeight;
-      if (scrollPosition >= pageHeight && hasMore.current) {
-        const newVideos = await getVideos(true);
-        if (!newVideos.length) {
-          hasMore.current = false;
-          return;
-        }
-        setVideos((prev) => [...prev, ...newVideos]);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters]);
-
-  useEffect(() => {
-    if (id && clickId.current) {
-      const trigger = document.getElementById("videoDialogTrigger");
-      if (trigger) {
-        trigger.click();
-        clickId.current = false;
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (scrollVideos.length)
+      setVideos((prev) => [...prev, ...(scrollVideos as VideoModel[])]);
+  }, [scrollVideos]);
 
   return (
     <S.Container>
@@ -86,19 +71,11 @@ export const VideoGallery = () => {
         {!isLoading && !videos?.length && (
           <S.NoData>Nenhum Video encontrado.</S.NoData>
         )}
-        {id && (
-          <S.VideoDialog
-            id="videoDialog"
-            trigger={
-              <S.VideoDialogTrigger as="div" id="videoDialogTrigger" hide />
-            }
-            title="Video"
-            description="Detalhe do Video"
-          >
-            <VideoDetails id={id} />
-          </S.VideoDialog>
-        )}
-        <S.MasonryWrapper>
+        <Masonry
+          className="masonry-grid"
+          columnClassName="masonry-grid-column"
+          breakpointCols={MASONRY_BREAKPOINTS}
+        >
           {videos.map((video) => (
             <S.VideoDialog
               id="videoDialog"
@@ -108,17 +85,16 @@ export const VideoGallery = () => {
                   as="div"
                   onClick={() => navigate(`${video.id}`)}
                 >
-                  {video.isNew && <S.NewChip size="sm">New</S.NewChip>}
-                  <LoadVideo src={video.path} alt="video" />
+                  <VideoCardPreview video={video} />
                 </S.VideoDialogTrigger>
               }
               title="Video"
               description="Detalhe do Video"
             >
-              <VideoDetails id={video.id} />
+              <VideoDetails />
             </S.VideoDialog>
           ))}
-        </S.MasonryWrapper>
+        </Masonry>
       </S.Content>
     </S.Container>
   );

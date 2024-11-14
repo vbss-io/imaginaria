@@ -23,7 +23,6 @@ export const ImageGallery = () => {
   const [images, setImages] = useState<Images>([]);
   const [filters, setFilters] = useState<Omit<GetImagesInput, "page">>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const clickId = useRef<boolean>(true);
   const page = useRef<number>(0);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -61,16 +60,6 @@ export const ImageGallery = () => {
     if (scrollImages.length)
       setImages((prev) => [...prev, ...(scrollImages as ImageModel[])]);
   }, [scrollImages]);
-
-  useEffect(() => {
-    if (id && clickId.current) {
-      const trigger = document.getElementById("imageDialogTrigger");
-      if (trigger) {
-        trigger.click();
-        clickId.current = false;
-      }
-    }
-  }, []);
 
   return (
     <S.Container>
