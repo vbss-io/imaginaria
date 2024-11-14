@@ -17,8 +17,30 @@ interface MediaFooterProps {
 
 export const MediaFooter = ({ type, media }: MediaFooterProps) => {
   const { user } = useAuth();
-  const mediaInfo = getMediaInfos(type);
   const navigate = useNavigate();
+
+  const deleteImage = new DeleteImage();
+  const deleteVideo = new DeleteVideo();
+
+  const getMediaInfos = (type: string) => {
+    switch (type) {
+      case "image":
+        return {
+          deleteAction: deleteImage,
+          backPath: "/images",
+          modalTitle: "Detalhes da Imagem",
+        };
+      case "video":
+        return {
+          deleteAction: deleteVideo,
+          backPath: "/videos",
+          modalTitle: "Detalhes do Video",
+        };
+      default:
+        throw new Error();
+    }
+  };
+  const mediaInfo = getMediaInfos(type);
 
   const handleDeleteMedia = async () => {
     await mediaInfo.deleteAction.execute({ id: media.id });
@@ -83,26 +105,4 @@ export const MediaFooter = ({ type, media }: MediaFooterProps) => {
       </S.ActionsContainer>
     </S.Container>
   );
-};
-
-const deleteImage = new DeleteImage();
-const deleteVideo = new DeleteVideo();
-
-const getMediaInfos = (type: string) => {
-  switch (type) {
-    case "image":
-      return {
-        deleteAction: deleteImage,
-        backPath: "/images",
-        modalTitle: "Detalhes da Imagem",
-      };
-    case "video":
-      return {
-        deleteAction: deleteVideo,
-        backPath: "/videos",
-        modalTitle: "Detalhes do Video",
-      };
-    default:
-      throw new Error();
-  }
 };

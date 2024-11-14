@@ -22,6 +22,24 @@ export const MediaLike = ({
   small = false,
 }: MediaLikeProps) => {
   const { user } = useAuth();
+
+  const likeImage = new LikeImage();
+  const likeVideo = new LikeVideo();
+
+  const getMediaInfos = (type: string) => {
+    switch (type) {
+      case "image":
+        return {
+          likeAction: likeImage,
+        };
+      case "video":
+        return {
+          likeAction: likeVideo,
+        };
+      default:
+        throw new Error();
+    }
+  };
   const mediaInfo = getMediaInfos(type);
 
   const handleLikeMedia = async () => {
@@ -57,22 +75,4 @@ export const MediaLike = ({
       )}
     </div>
   );
-};
-
-const likeImage = new LikeImage();
-const likeVideo = new LikeVideo();
-
-const getMediaInfos = (type: string) => {
-  switch (type) {
-    case "image":
-      return {
-        likeAction: likeImage,
-      };
-    case "video":
-      return {
-        likeAction: likeVideo,
-      };
-    default:
-      throw new Error();
-  }
 };

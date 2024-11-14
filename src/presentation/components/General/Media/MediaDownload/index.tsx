@@ -18,6 +18,26 @@ export const MediaDownload = ({
   small = false,
 }: MediaDownloadProps) => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const downloadImage = new DownloadImage();
+  const downloadVideo = new DownloadVideo();
+
+  const getMediaInfos = (type: string) => {
+    switch (type) {
+      case "image":
+        return {
+          downloadAction: downloadImage,
+          extension: "png",
+        };
+      case "video":
+        return {
+          downloadAction: downloadVideo,
+          extension: "mp4",
+        };
+      default:
+        throw new Error();
+    }
+  };
   const mediaInfo = getMediaInfos(type);
 
   const handleDownloadMedia = async () => {
@@ -53,24 +73,4 @@ export const MediaDownload = ({
       )}
     </S.DownloadButton>
   );
-};
-
-const downloadImage = new DownloadImage();
-const downloadVideo = new DownloadVideo();
-
-const getMediaInfos = (type: string) => {
-  switch (type) {
-    case "image":
-      return {
-        downloadAction: downloadImage,
-        extension: "png",
-      };
-    case "video":
-      return {
-        downloadAction: downloadVideo,
-        extension: "mp4",
-      };
-    default:
-      throw new Error();
-  }
 };
