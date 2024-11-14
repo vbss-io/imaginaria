@@ -5,8 +5,15 @@ export const Container = styled("div", {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  width: "100%",
-  height: "100%",
+  maxHeight: "70vh",
+  maxWidth: "100vw",
+
+  video: {
+    display: "block",
+    maxWidth: "100%",
+    maxHeight: "100%",
+    objectFit: "contain",
+  },
 });
 
 export const blink = keyframes({
