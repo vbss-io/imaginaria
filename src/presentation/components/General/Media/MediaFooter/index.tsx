@@ -78,7 +78,7 @@ export const MediaFooter = ({ type, media }: MediaFooterProps) => {
             </Button>
           }
         >
-          <MediaInformation media={media} />
+          <MediaInformation type={type} media={media} />
         </S.CustomDialog>
       </S.ActionsContainer>
     </S.Container>

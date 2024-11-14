@@ -25,6 +25,11 @@ export const Header = styled("div", {
     height: "10rem",
     borderRadius: "1rem",
   },
+
+  video: {
+    height: "10rem",
+    borderRadius: "1rem",
+  },
 });
 
 export const Content = styled("div", {

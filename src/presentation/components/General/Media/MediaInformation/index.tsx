@@ -3,14 +3,20 @@ import { VideoDetails } from "@/domain/models/Video/VideoDetails";
 import * as S from "./styles";
 
 interface MediaInformationProps {
+  type: string;
   media: ImageDetails | VideoDetails;
 }
 
-export const MediaInformation = ({ media }: MediaInformationProps) => {
+export const MediaInformation = ({ type, media }: MediaInformationProps) => {
   return (
     <S.Container>
       <S.Header>
-        <img src={`${import.meta.env.VITE_CDN}${media.path}`} />
+        {type === "image" && (
+          <img src={`${import.meta.env.VITE_CDN}${media.path}`} />
+        )}
+        {type === "video" && (
+          <video src={`${import.meta.env.VITE_CDN}${media.path}`} />
+        )}
         <S.Info>
           <S.InfoCard>
             <span>Origem</span>

@@ -42,7 +42,7 @@ export const MediaLike = ({
             </Button>
           }
         >
-          <LoginForm />
+          <LoginForm isModal />
         </S.CustomDialog>
       ) : (
         <Button onClick={async () => await handleLikeMedia()}>
