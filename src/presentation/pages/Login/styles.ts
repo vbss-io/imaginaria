@@ -22,10 +22,13 @@ export const TabsContainer = styled("div", {
 });
 
 export const ActionButton = styled(Button, {
+  color: "$text",
+
   variants: {
     isActive: {
       true: {
         pointerEvents: "none",
+        color: "white",
       },
     },
   },
