@@ -1,7 +1,16 @@
 import { styled } from "@/presentation/config/stitches.config";
 
 export const FormContainer = styled("div", {
+  width: "20rem",
   display: "flex",
+
+  variants: {
+    isModal: {
+      true: {
+        width: "100%",
+      },
+    },
+  },
 });
 
 export const Form = styled("form", {

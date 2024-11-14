@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { SignIn } from "@phosphor-icons/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { Button, Input } from "vbss-ui";
 import { z } from "zod";
 import * as S from "./styles";
@@ -20,8 +21,13 @@ const loginSchema = z.object({
 
 type LoginForms = z.infer<typeof loginSchema>;
 
-export const LoginForm = () => {
+interface LoginFormProps {
+  isModal?: boolean;
+}
+
+export const LoginForm = ({ isModal = false }: LoginFormProps) => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [error, setError] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, formState, reset } = useForm<LoginForms>({
@@ -34,9 +40,8 @@ export const LoginForm = () => {
       const loginUsecase = new Login();
       const { username, role, token } = await loginUsecase.execute(data);
       login({ username, role, token });
-      setIsLoading(false);
-      setError(false);
-      window.location.reload();
+      !isModal && navigate("/");
+      isModal && window.location.reload();
     } catch {
       reset();
       setError(true);
@@ -45,7 +50,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <S.FormContainer>
+    <S.FormContainer isModal={isModal}>
       <S.Form onSubmit={handleSubmit(handleSubmitForm)}>
         <Input
           label="Usuário:"
