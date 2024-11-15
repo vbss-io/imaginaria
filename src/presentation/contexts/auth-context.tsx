@@ -5,14 +5,16 @@ interface Login {
   username: string;
   role: string;
   token: string;
+  avatar?: string;
 }
 
 export const AuthContext = createContext(
   {} as {
     token: string;
     user: User | null;
-    login: ({ username, role, token }: Login) => void;
+    login: ({ username, role, token, avatar }: Login) => void;
     logout: () => void;
+    updateAvatar: (avatar?: string) => void;
   }
 );
 
@@ -44,15 +46,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
   }, []);
 
-  const login = ({ username, role, token }: Login) => {
+  const login = ({ username, role, token, avatar }: Login) => {
     const isAdmin = role === "administrator";
     setToken(token);
     saveToLocalStorage("token", token);
-    setUser({ username, role, isAdmin });
+    setUser({ username, role, isAdmin, avatar });
     saveToLocalStorage("user", {
       username,
       role,
       isAdmin,
+      avatar,
     });
   };
 
@@ -64,8 +67,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     window.location.reload();
   };
 
+  const updateAvatar = (newAvatar?: string) => {
+    const updatedUser = { ...(user as User), avatar: newAvatar };
+    setUser(updatedUser);
+    deleteFromLocalStorage("user");
+    console.log("updatedUser", updatedUser);
+    saveToLocalStorage("user", {
+      ...updatedUser,
+      avatar: updatedUser.avatar,
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider value={{ token, user, login, logout, updateAvatar }}>
       {children}
     </AuthContext.Provider>
   );
