@@ -19,7 +19,6 @@ export interface Batch {
   origin: string;
   modelName: string;
   owner: boolean;
-  authorName: string;
   automatic: boolean;
   errorMessage?: string;
 }
