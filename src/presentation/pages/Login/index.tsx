@@ -31,7 +31,7 @@ export const Login = () => {
       </S.TabsContainer>
       <S.Content>
         {isLogin && <LoginForm />}
-        {isSignin && <div>Em Breve</div>}
+        {isSignin && <S.SignInSoon>Em Breve</S.SignInSoon>}
       </S.Content>
     </S.Container>
   );

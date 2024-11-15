@@ -33,3 +33,7 @@ export const ActionButton = styled(Button, {
     },
   },
 });
+
+export const SignInSoon = styled("div", {
+  color: "$text",
+});
