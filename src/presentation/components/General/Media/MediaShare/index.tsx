@@ -5,7 +5,9 @@ import * as S from "./styles";
 
 export const MediaShare = () => {
   const locationHref = window.location.href;
-  const [inputValue, setInputValue] = useState(locationHref);
+  const [inputValue, setInputValue] = useState(
+    locationHref.replace("/profile/", "/")
+  );
 
   const handleCopyMediaLink = () => {
     navigator.clipboard.writeText(locationHref);

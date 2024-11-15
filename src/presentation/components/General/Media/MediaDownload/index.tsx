@@ -68,7 +68,7 @@ export const MediaDownload = ({
       ) : (
         <>
           <DownloadSimple color="white" width="1.3rem" height="1.3rem" />
-          {small ? "Baixar" : "Baixe Grátis"}
+          <span>{small ? "Baixar" : "Baixe Grátis"}</span>
         </>
       )}
     </S.DownloadButton>

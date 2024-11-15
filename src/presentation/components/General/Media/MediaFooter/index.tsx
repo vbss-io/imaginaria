@@ -6,7 +6,7 @@ import { MediaInformation } from "@/presentation/components/General/Media/MediaI
 import { MediaShare } from "@/presentation/components/General/Media/MediaShare";
 import { useAuth } from "@/presentation/hooks/use-auth";
 import { Info, ShareNetwork, Trash } from "@phosphor-icons/react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "vbss-ui";
 import * as S from "./styles";
 
@@ -18,6 +18,7 @@ interface MediaFooterProps {
 export const MediaFooter = ({ type, media }: MediaFooterProps) => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const deleteImage = new DeleteImage();
   const deleteVideo = new DeleteVideo();
@@ -27,13 +28,11 @@ export const MediaFooter = ({ type, media }: MediaFooterProps) => {
       case "image":
         return {
           deleteAction: deleteImage,
-          backPath: "/images",
           modalTitle: "Detalhes da Imagem",
         };
       case "video":
         return {
           deleteAction: deleteVideo,
-          backPath: "/videos",
           modalTitle: "Detalhes do Video",
         };
       default:
@@ -44,7 +43,27 @@ export const MediaFooter = ({ type, media }: MediaFooterProps) => {
 
   const handleDeleteMedia = async () => {
     await mediaInfo.deleteAction.execute({ id: media.id });
-    navigate(mediaInfo.backPath);
+    const deleteMediaModal = document.getElementById("deleteMediaModal");
+    const mediaModal = document.getElementById("mediaDetails");
+    const deleteModalCloseButton = deleteMediaModal
+      ?.childNodes[2] as HTMLButtonElement;
+    const mediaModalCloseButton =
+      mediaModal?.nextElementSibling as HTMLButtonElement;
+    if (deleteModalCloseButton) {
+      const originalOnClick = deleteModalCloseButton.onclick;
+      deleteModalCloseButton.onclick = async function (event) {
+        await originalOnClick?.call(this, event);
+        window.dispatchEvent(new CustomEvent("refreshMedias"));
+        const newPathName = location.pathname.includes("batches")
+          ? location.pathname
+              .replace(`images/${media.id}`, "")
+              .replace(`videos/${media.id}`, "")
+          : location.pathname.replace(media.id, "");
+        navigate(newPathName);
+      };
+    }
+    deleteModalCloseButton?.click();
+    mediaModalCloseButton?.click();
   };
 
   return (
@@ -65,6 +84,7 @@ export const MediaFooter = ({ type, media }: MediaFooterProps) => {
       <S.ActionsContainer>
         {user && media.owner && (
           <S.CustomDialog
+            id="deleteMediaModal"
             title="Excluir Imagem"
             description="Não será possivel restaurar a imagem."
             trigger={
@@ -84,7 +104,7 @@ export const MediaFooter = ({ type, media }: MediaFooterProps) => {
           trigger={
             <Button as="div">
               <ShareNetwork color="white" width="1.3rem" height="1.3rem" />
-              Compartilhar
+              <span>Compartilhar</span>
             </Button>
           }
         >
@@ -96,7 +116,7 @@ export const MediaFooter = ({ type, media }: MediaFooterProps) => {
           trigger={
             <Button as="div">
               <Info color="white" width="1.3rem" height="1.3rem" />
-              Informações
+              <span>Informações</span>
             </Button>
           }
         >

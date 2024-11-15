@@ -6,6 +6,13 @@ export const Container = styled("div", {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
+  flexDirection: "column-reverse",
+  gap: "1rem",
+
+  "@xsm": {
+    flexDirection: "row",
+    gap: 0,
+  },
 });
 
 export const TagsContainer = styled("div", {
@@ -26,6 +33,16 @@ export const ActionsContainer = styled("div", {
   alignItems: "center",
   color: "$text",
   gap: "1rem",
+
+  span: {
+    display: "none",
+  },
+
+  "@md": {
+    span: {
+      display: "block",
+    },
+  },
 });
 
 export const CustomDialog = styled(Dialog, {

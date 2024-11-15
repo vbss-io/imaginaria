@@ -6,4 +6,14 @@ export const DownloadButton = styled(Button, {
     width: "1rem",
     height: "1rem",
   },
+
+  span: {
+    display: "none",
+  },
+
+  "@sm": {
+    span: {
+      display: "block",
+    },
+  },
 });

@@ -48,7 +48,7 @@ export const MediaLike = ({
   };
 
   return (
-    <div onClick={(e) => e.preventDefault()}>
+    <S.Content onClick={(e) => e.preventDefault()}>
       {!user ? (
         <S.CustomDialog
           title="Login"
@@ -56,7 +56,7 @@ export const MediaLike = ({
           trigger={
             <Button as="div">
               <Heart color="white" width="1.3rem" height="1.3rem" />
-              {!small && "Curtir"}
+              {!small && <span>Curtir</span>}
             </Button>
           }
         >
@@ -70,9 +70,9 @@ export const MediaLike = ({
             width="1.3rem"
             height="1.3rem"
           />
-          {!small && "Curtir"}
+          {!small && <span>Curtir</span>}
         </Button>
       )}
-    </div>
+    </S.Content>
   );
 };
