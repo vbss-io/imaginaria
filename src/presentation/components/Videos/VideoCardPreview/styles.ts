@@ -1,14 +1,9 @@
 import { keyframes, styled } from "@/presentation/config/stitches.config";
 
 export const Container = styled("div", {
+  width: "100%",
   display: "flex",
   overflow: "hidden",
-  borderRadius: "0.5rem",
-  transition: "transform 0.1s ease-in-out",
-
-  "&:hover": {
-    transform: "scale(1.01)",
-  },
 });
 
 export const blink = keyframes({
@@ -45,50 +40,9 @@ export const PlayIconWrapper = styled("div", {
   },
 });
 
-export const ImageContent = styled("div", {
+export const VideoContent = styled("div", {
   width: "100%",
   height: "100%",
   display: "flex",
   position: "relative",
-});
-
-export const ImageHoverContent = styled("div", {
-  position: "absolute",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-  padding: "0.75rem",
-  width: "100%",
-  height: "100%",
-  background:
-    "linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent, transparent, rgba(0, 0, 0, 0.5))",
-});
-
-export const ImageHoverTop = styled("div", {
-  display: "flex",
-  width: "100%",
-  justifyContent: "flex-end",
-
-  button: {
-    maxWidth: "3.5rem",
-
-    div: {
-      padding: "0.5rem",
-    },
-  },
-});
-
-export const ImageHoverBottom = styled("div", {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-
-  strong: {
-    color: "white !important",
-  },
-
-  button: {
-    maxWidth: "6.5rem",
-    margin: "0 !important",
-  },
 });

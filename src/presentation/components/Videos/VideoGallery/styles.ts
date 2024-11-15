@@ -1,5 +1,3 @@
-import { Button, Dialog } from "vbss-ui";
-
 import { styled } from "@/presentation/config/stitches.config";
 
 export const Container = styled("div", {
@@ -33,45 +31,10 @@ export const Content = styled("div", {
 
     button: {
       width: "100%",
-      marginBottom: "1rem",
     },
 
     div: {
       margin: 0,
-    },
-  },
-});
-
-export const VideoDialog = styled(Dialog, {
-  backgroundColor: "$background",
-  color: "$text",
-  maxWidth: "80vw",
-
-  h2: {
-    display: "none",
-  },
-
-  p: {
-    display: "none",
-  },
-});
-
-export const VideoDialogTrigger = styled(Button, {
-  all: "unset",
-  position: "relative",
-
-  "&:hover": {
-    all: "unset",
-    position: "relative",
-    cursor: "pointer",
-  },
-
-  variants: {
-    hide: {
-      true: {
-        display: "none",
-        height: 0,
-      },
     },
   },
 });

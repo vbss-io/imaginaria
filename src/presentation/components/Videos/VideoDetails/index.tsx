@@ -7,25 +7,20 @@ import { MediaFooter } from "@/presentation/components/General/Media/MediaFooter
 import { MediaHeader } from "@/presentation/components/General/Media/MediaHeader";
 import { LoadVideo } from "@/presentation/components/Videos/LoadVideo";
 import { useCloseModal } from "@/presentation/hooks/use-close-modal";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import * as S from "./styles";
 
 interface VideoDetailsProps {
   isModal?: boolean;
-  backPath?: string;
 }
 
-export const VideoDetails = ({
-  isModal = false,
-  backPath = "/videos",
-}: VideoDetailsProps) => {
+export const VideoDetails = ({ isModal = false }: VideoDetailsProps) => {
   const [video, setVideo] = useState<VideoDetailsModel | null>();
   const [isLoading, setIsLoading] = useState(true);
   const [userLiked, setUserLiked] = useState(false);
   const [message, setMessage] = useState("");
   const { id } = useParams() as { id: string };
-  const navigate = useNavigate();
-  useCloseModal({ useHook: isModal, backPath, media: video });
+  useCloseModal({ useHook: isModal, media: video });
 
   useEffect(() => {
     const getVideoDetails = new GetVideoDetails();
@@ -33,7 +28,6 @@ export const VideoDetails = ({
       const video = await getVideoDetails.execute({ id });
       if (!video.id) {
         setMessage("Não foi possivel encontrar o video.");
-        return navigate(backPath);
       }
       setVideo(video);
       setUserLiked(video.userLiked);

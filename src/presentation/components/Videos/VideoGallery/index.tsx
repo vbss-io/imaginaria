@@ -1,14 +1,11 @@
 import { GetVideosInput } from "@/application/usecases/Video/dtos/GetVideos.dto";
-import { Video as VideoModel } from "@/domain/models/Video/Video";
-import { useEffect, useRef, useState } from "react";
-// import { LoadImage } from "@/presentation/components/Image";
-// import { ImageDetails } from "@/presentation/components/ImageDetails";
-// import { ImageFilters } from "@/presentation/components/ImageFilters";
+import { GetUserVideos } from "@/application/usecases/Video/GetUserVideos";
 import { GetVideos } from "@/application/usecases/Video/GetVideos";
-import { VideoCardPreview } from "@/presentation/components/Videos/VideoCardPreview";
-import { VideoDetails } from "@/presentation/components/Videos/VideoDetails";
+import { Video as VideoModel } from "@/domain/models/Video/Video";
+import { VideoCard } from "@/presentation/components/Videos/VideoCard";
 import { VideoFilters } from "@/presentation/components/Videos/VideoFilters";
 import { useInfiniteScroll } from "@/presentation/hooks/use-infinite-scroll";
+import { useEffect, useRef, useState } from "react";
 import Masonry from "react-masonry-css";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./styles";
@@ -22,7 +19,11 @@ const MASONRY_BREAKPOINTS = {
   default: 4,
 };
 
-export const VideoGallery = () => {
+interface VideoGalleryProps {
+  callUserVideos?: boolean;
+}
+
+export const VideoGallery = ({ callUserVideos = false }: VideoGalleryProps) => {
   const [videos, setVideos] = useState<Videos>([]);
   const [filters, setFilters] = useState<Omit<GetVideosInput, "page">>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -34,11 +35,30 @@ export const VideoGallery = () => {
     if (id) navigate(`/video/${id}`);
   }, []);
 
+  useEffect(() => {
+    const refreshVideos = async () => {
+      page.current = 0;
+      setVideos([]);
+      setFilters({});
+      await getVideos(false);
+    };
+
+    window.addEventListener("refreshMedias", refreshVideos);
+    return () => {
+      window.removeEventListener("refreshMedias", refreshVideos);
+    };
+  }, []);
+
   const getVideos = async (scroll?: boolean) => {
+    const getVideosUsecase = new GetVideos();
+    const getUserVideosUsecase = new GetUserVideos();
+    const usecaseToCall = callUserVideos
+      ? getUserVideosUsecase
+      : getVideosUsecase;
+
     if (!scroll) setIsLoading(true);
     page.current = page.current + 1;
-    const getVideosUsecase = new GetVideos();
-    const responseVideos = await getVideosUsecase.execute({
+    const responseVideos = await usecaseToCall.execute({
       page: page.current,
       ...filters,
     });
@@ -67,7 +87,9 @@ export const VideoGallery = () => {
   return (
     <S.Container>
       <S.Content>
-        <VideoFilters isLoading={isLoading} setFilters={setFilters} />
+        {!callUserVideos && (
+          <VideoFilters isLoading={isLoading} setFilters={setFilters} />
+        )}
         {!isLoading && !videos?.length && (
           <S.NoData>Nenhum Video encontrado.</S.NoData>
         )}
@@ -77,22 +99,7 @@ export const VideoGallery = () => {
           breakpointCols={MASONRY_BREAKPOINTS}
         >
           {videos.map((video) => (
-            <S.VideoDialog
-              id="videoDialog"
-              key={video.id}
-              trigger={
-                <S.VideoDialogTrigger
-                  as="div"
-                  onClick={() => navigate(`${video.id}`)}
-                >
-                  <VideoCardPreview video={video} />
-                </S.VideoDialogTrigger>
-              }
-              title="Video"
-              description="Detalhe do Video"
-            >
-              <VideoDetails />
-            </S.VideoDialog>
+            <VideoCard video={video} />
           ))}
         </Masonry>
       </S.Content>

@@ -3,9 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { Loading } from "@/presentation/components/General/Loading";
 
 import { Video as VideoModel } from "@/domain/models/Video/Video";
-import { MediaAvatar } from "@/presentation/components/General/Media/MediaAvatar";
-import { MediaDownload } from "@/presentation/components/General/Media/MediaDownload";
-import { MediaLike } from "@/presentation/components/General/Media/MediaLike";
 import { PlayCircle } from "@phosphor-icons/react";
 import * as S from "./styles";
 
@@ -19,9 +16,7 @@ export const VideoCardPreview = ({
   controls = false,
 }: VideoCardPreviewProps) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [userLiked, setUserLiked] = useState(video.userLiked);
   const [isPlayLoading, setIsPlayLoading] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -33,7 +28,6 @@ export const VideoCardPreview = ({
   }, [video.path]);
 
   const handleMouseEnter = () => {
-    setShowOverlay(true);
     if (videoRef.current) {
       setIsPlayLoading(true);
       videoRef.current.play();
@@ -45,7 +39,6 @@ export const VideoCardPreview = ({
   };
 
   const handleMouseLeave = () => {
-    setShowOverlay(false);
     if (videoRef.current && !controls) {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
@@ -53,50 +46,15 @@ export const VideoCardPreview = ({
     }
   };
 
-  console.log("oi");
-
-  useEffect(() => {
-    console.log(showOverlay);
-  }, [showOverlay]);
-
   return (
-    <S.Container
-      onMouseEnter={() => setShowOverlay(true)}
-      onMouseLeave={() => setShowOverlay(false)}
-    >
+    <S.Container>
       {isLoading ? (
         <Loading />
       ) : (
-        <S.ImageContent>
+        <S.VideoContent>
           <S.PlayIconWrapper isLoading={isPlayLoading}>
             <PlayCircle weight="fill" />
           </S.PlayIconWrapper>
-          {showOverlay && (
-            <S.ImageHoverContent>
-              <S.ImageHoverTop>
-                <MediaLike
-                  type="video"
-                  mediaId={video.id}
-                  small={true}
-                  userMediaLike={userLiked}
-                  setUserMediaLike={setUserLiked}
-                />
-              </S.ImageHoverTop>
-              <S.ImageHoverBottom>
-                <MediaAvatar
-                  authorName={video.authorName}
-                  authorAvatar={video.authorAvatar}
-                  avatarSize="x-small"
-                />
-                <MediaDownload
-                  type="video"
-                  mediaId={video.id}
-                  mediaPath={video.path}
-                  small={true}
-                />
-              </S.ImageHoverBottom>
-            </S.ImageHoverContent>
-          )}
           <video
             ref={videoRef}
             controls={controls}
@@ -113,7 +71,7 @@ export const VideoCardPreview = ({
               setIsPlayLoading(true);
             }}
           />
-        </S.ImageContent>
+        </S.VideoContent>
       )}
     </S.Container>
   );
