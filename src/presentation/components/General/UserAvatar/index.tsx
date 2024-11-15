@@ -4,7 +4,7 @@ const DEFAULT_AVATAR = "/ai-content-factory/default-avatar-image.jpg";
 
 interface UserAvatarProps {
   avatarPath?: string;
-  size?: "x-small" | "small" | "medium" | "large";
+  size?: "x-small" | "small" | "medium" | "large" | "profile";
 }
 export const UserAvatar = ({ avatarPath, size = "small" }: UserAvatarProps) => {
   const avatarUrl = `${import.meta.env.VITE_CDN}${

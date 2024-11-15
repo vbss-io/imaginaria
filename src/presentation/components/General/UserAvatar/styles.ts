@@ -33,6 +33,12 @@ export const Container = styled("div", {
         width: "72px",
         height: "72px",
       },
+      profile: {
+        minWidth: "10rem",
+        minHeight: "10rem",
+        width: "10rem",
+        height: "10rem",
+      },
     },
   },
 
