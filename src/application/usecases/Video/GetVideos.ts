@@ -11,7 +11,7 @@ export class GetVideos {
   httpClient: HttpClient;
 
   constructor() {
-    this.httpClient = Registry.getInstance().inject("httpClient");
+    this.httpClient = Registry.getInstance().inject("authHttpClient");
   }
 
   async execute(params: GetVideosInput): Promise<GetVideosOutput> {
