@@ -5,14 +5,14 @@ export const Container = styled("div", {
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  minHeight: "calc(100vh - 10rem)",
+  gap: "1rem",
+  width: "100%",
 });
 
 export const Content = styled("div", {
-  height: "100%",
+  width: "100%",
+  minHeight: "calc(100vh - 10rem)",
   display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
 });
 
 export const TabsContainer = styled("div", {
@@ -22,10 +22,13 @@ export const TabsContainer = styled("div", {
 });
 
 export const ActionButton = styled(Button, {
+  color: "$text",
+
   variants: {
     isActive: {
       true: {
         pointerEvents: "none",
+        color: "white",
       },
     },
   },

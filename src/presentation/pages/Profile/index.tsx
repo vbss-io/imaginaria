@@ -1,3 +1,7 @@
+import { BatchGallery } from "@/presentation/components/Batches/BatchGallery";
+import { Profile as ProfileComponent } from "@/presentation/components/General/Profile";
+import { ImageGallery } from "@/presentation/components/Images/ImageGallery";
+import { VideoGallery } from "@/presentation/components/Videos/VideoGallery";
 import { useAuth } from "@/presentation/hooks/use-auth";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,8 +17,10 @@ export const Profile = () => {
   }, []);
 
   const isProfile = location.pathname === "/profile";
-  const isBatches = location.pathname === "/profile/batches";
+  const isBatches = location.pathname.includes("/profile/batches");
   const isTasks = location.pathname === "/profile/tasks";
+  const isImages = location.pathname.includes("/profile/images");
+  const isVideos = location.pathname.includes("/profile/videos");
 
   return (
     <S.Container>
@@ -43,11 +49,29 @@ export const Profile = () => {
         >
           Tasks
         </S.ActionButton>
+        <S.ActionButton
+          size="sm"
+          variant={isImages ? "primary" : "ghost"}
+          isActive={isImages}
+          onClick={() => navigate("/profile/images")}
+        >
+          Imagens
+        </S.ActionButton>
+        <S.ActionButton
+          size="sm"
+          variant={isVideos ? "primary" : "ghost"}
+          isActive={isVideos}
+          onClick={() => navigate("/profile/videos")}
+        >
+          Videos
+        </S.ActionButton>
       </S.TabsContainer>
       <S.Content>
-        {isBatches && <div>isBatches</div>}
+        {isBatches && <BatchGallery />}
         {isTasks && <div>isTasks</div>}
-        {isProfile && <div>isProfile</div>}
+        {isProfile && <ProfileComponent />}
+        {isImages && <ImageGallery callUserImages />}
+        {isVideos && <VideoGallery callUserVideos />}
       </S.Content>
     </S.Container>
   );
