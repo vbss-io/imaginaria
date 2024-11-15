@@ -1,8 +1,8 @@
 import { GetImagesInput } from "@/application/usecases/Image/dtos/GetImages.dto";
 import { GetImages } from "@/application/usecases/Image/GetImages";
+import { GetUserImages } from "@/application/usecases/Image/GetUserImages";
 import { Image as ImageModel } from "@/domain/models/Image/Image";
-import { ImageCardPreview } from "@/presentation/components/Images/ImageCardPreview";
-import { ImageDetails } from "@/presentation/components/Images/ImageDetails";
+import { ImageCard } from "@/presentation/components/Images/ImageCard";
 import { ImageFilters } from "@/presentation/components/Images/ImageFilters";
 import { useInfiniteScroll } from "@/presentation/hooks/use-infinite-scroll";
 import { useEffect, useRef, useState } from "react";
@@ -19,7 +19,11 @@ const MASONRY_BREAKPOINTS = {
   default: 4,
 };
 
-export const ImageGallery = () => {
+interface ImageGalleryProps {
+  callUserImages?: boolean;
+}
+
+export const ImageGallery = ({ callUserImages = false }: ImageGalleryProps) => {
   const [images, setImages] = useState<Images>([]);
   const [filters, setFilters] = useState<Omit<GetImagesInput, "page">>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -31,11 +35,30 @@ export const ImageGallery = () => {
     if (id) navigate(`/image/${id}`);
   }, []);
 
+  useEffect(() => {
+    const refreshImages = async () => {
+      page.current = 0;
+      setImages([]);
+      setFilters({});
+      await getImages(false);
+    };
+
+    window.addEventListener("refreshMedias", refreshImages);
+    return () => {
+      window.removeEventListener("refreshMedias", refreshImages);
+    };
+  }, []);
+
   const getImages = async (scroll?: boolean) => {
+    const getImagesUsecase = new GetImages();
+    const getUserImagesUsecase = new GetUserImages();
+    const usecaseToCall = callUserImages
+      ? getUserImagesUsecase
+      : getImagesUsecase;
+
     if (!scroll) setIsLoading(true);
     page.current = page.current + 1;
-    const getImagesUsecase = new GetImages();
-    const responseImages = await getImagesUsecase.execute({
+    const responseImages = await usecaseToCall.execute({
       page: page.current,
       ...filters,
     });
@@ -64,7 +87,9 @@ export const ImageGallery = () => {
   return (
     <S.Container>
       <S.Content>
-        <ImageFilters isLoading={isLoading} setFilters={setFilters} />
+        {!callUserImages && (
+          <ImageFilters isLoading={isLoading} setFilters={setFilters} />
+        )}
         {!isLoading && !images?.length && (
           <S.NoData>Nenhuma Imagem encontrada.</S.NoData>
         )}
@@ -74,22 +99,7 @@ export const ImageGallery = () => {
           breakpointCols={MASONRY_BREAKPOINTS}
         >
           {images.map((image) => (
-            <S.ImageDialog
-              id="imageDialog"
-              key={image.id}
-              trigger={
-                <S.ImageDialogTrigger
-                  as="div"
-                  onClick={() => navigate(`${image.id}`)}
-                >
-                  <ImageCardPreview image={image} />
-                </S.ImageDialogTrigger>
-              }
-              title="Imagem"
-              description="Detalhe da Imagem"
-            >
-              <ImageDetails isModal />
-            </S.ImageDialog>
+            <ImageCard image={image} />
           ))}
         </Masonry>
       </S.Content>
