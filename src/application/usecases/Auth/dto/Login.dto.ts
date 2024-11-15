@@ -7,4 +7,5 @@ export interface LoginOutput {
   token: string;
   username: string;
   role: string;
+  avatar?: string;
 }
