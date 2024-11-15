@@ -14,7 +14,11 @@ import { useDarkMode } from "@/presentation/hooks/use-dark-mode";
 import { useAuth } from "@/presentation/hooks/use-auth";
 import * as S from "./styles";
 
-export const HeaderActions = () => {
+interface HeaderActionsProps {
+  isPageHeader?: boolean;
+}
+
+export const HeaderActions = ({ isPageHeader = false }: HeaderActionsProps) => {
   const { user } = useAuth();
   const { darkMode, setDarkMode } = useDarkMode();
   const [showMenu, setShowMenu] = useState(false);
@@ -63,7 +67,7 @@ export const HeaderActions = () => {
           Áudios
         </Button>
       </S.HeaderButtons>
-      <S.HeaderButtons>
+      <S.HeaderButtons isMediaHeader={!isPageHeader}>
         <Switch
           variant="primary"
           iconOn="moon"
@@ -81,7 +85,11 @@ export const HeaderActions = () => {
               target="_blank"
               variant="ghost"
             >
-              <GithubLogo color="white" width="1.3rem" height="1.3rem" />
+              <GithubLogo
+                className="githubLogo"
+                width="1.3rem"
+                height="1.3rem"
+              />
             </Button>
           }
           fontSize="sm"
@@ -90,7 +98,7 @@ export const HeaderActions = () => {
           GitHub Back End
         </Tooltip>
         {!user ? (
-          <S.UserActions>
+          <S.UserActions isPageHeader={isPageHeader}>
             <Button as="a" href="/login" rounded="full">
               Entrar
             </Button>

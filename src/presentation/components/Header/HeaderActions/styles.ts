@@ -40,6 +40,18 @@ export const HeaderButtons = styled("div", {
         },
       },
     },
+    isMediaHeader: {
+      true: {
+        ".githubLogo": {
+          color: "$background",
+        },
+      },
+      false: {
+        ".githubLogo": {
+          color: "white",
+        },
+      },
+    },
   },
 });
 
@@ -49,14 +61,26 @@ export const UserActions = styled("div", {
 
   ".signInButton": {
     display: "none",
+    color: "$primary",
     backgroundColor: "transparent",
 
     "&:hover": {
       backgroundColor: "$primary",
+      color: "white",
     },
 
     "@xsm": {
       display: "flex",
+    },
+  },
+
+  variants: {
+    isPageHeader: {
+      true: {
+        ".signInButton": {
+          color: "white",
+        },
+      },
     },
   },
 });
