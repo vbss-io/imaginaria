@@ -1,16 +1,18 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { registerDependencies } from "@/infra/dependency-injection/Register";
+import { BatchGallery } from "@/presentation/components/Batches/BatchGallery";
 import { Footer } from "@/presentation/components/General/Footer";
 import { Loading } from "@/presentation/components/General/Loading";
 import { Header } from "@/presentation/components/Header";
 import { ImageDetails } from "@/presentation/components/Images/ImageDetails";
+import { ImageGallery } from "@/presentation/components/Images/ImageGallery";
 import { VideoDetails } from "@/presentation/components/Videos/VideoDetails";
+import { VideoGallery } from "@/presentation/components/Videos/VideoGallery";
 import { Root } from "@/presentation/config/stitches.config";
 import { AuthProvider } from "@/presentation/contexts/auth-context";
 import { DarkModeProvider } from "@/presentation/contexts/dark-mode-context.tsx";
 import { Audios } from "@/presentation/pages/Audios";
-import { Batches } from "@/presentation/pages/Batches";
 import { Home } from "@/presentation/pages/Home";
 import { Images } from "@/presentation/pages/Images";
 import { Login } from "@/presentation/pages/Login";
@@ -69,11 +71,41 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/profile/batches",
-        element: <Batches />,
+        element: <BatchGallery />,
+        children: [
+          {
+            path: "/profile/batches/images/:id",
+            element: <ImageDetails />,
+          },
+          {
+            path: "/profile/batches/videos/:id",
+            element: <VideoDetails />,
+          },
+        ],
       },
       {
         path: "/profile/tasks",
         element: <></>,
+      },
+      {
+        path: "/profile/images",
+        element: <ImageGallery callUserImages />,
+        children: [
+          {
+            path: "/profile/images/:id",
+            element: <ImageDetails />,
+          },
+        ],
+      },
+      {
+        path: "/profile/videos",
+        element: <VideoGallery callUserVideos />,
+        children: [
+          {
+            path: "/profile/videos/:id",
+            element: <VideoDetails />,
+          },
+        ],
       },
     ],
   },
