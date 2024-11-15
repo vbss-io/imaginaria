@@ -38,8 +38,11 @@ export const LoginForm = ({ isModal = false }: LoginFormProps) => {
     try {
       setIsLoading(true);
       const loginUsecase = new Login();
-      const { username, role, token } = await loginUsecase.execute(data);
-      login({ username, role, token });
+      const { username, role, token, avatar } = await loginUsecase.execute(
+        data
+      );
+      if (!username || !role || !token) throw new Error();
+      login({ username, role, token, avatar });
       !isModal && navigate("/");
       isModal && window.location.reload();
     } catch {
@@ -50,7 +53,7 @@ export const LoginForm = ({ isModal = false }: LoginFormProps) => {
   };
 
   return (
-    <S.FormContainer isModal={isModal}>
+    <S.FormContainer isModal={isModal} id="loginForm">
       <S.Form onSubmit={handleSubmit(handleSubmitForm)}>
         <Input
           label="Usuário:"
@@ -74,7 +77,11 @@ export const LoginForm = ({ isModal = false }: LoginFormProps) => {
               * Usuário ou Senha invalidos. Tente novamente.
             </S.ErrorMessage>
           )}
-          <Button type="submit" disabled={isLoading}>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            onClick={handleSubmit(handleSubmitForm)}
+          >
             {isLoading ? (
               <S.LoadingContainer>
                 <Loading />
