@@ -1,4 +1,5 @@
 import { styled } from "@/presentation/config/stitches.config";
+import { Dialog } from "vbss-ui";
 
 export const FormContainer = styled("div", {
   width: "100%",
@@ -72,5 +73,18 @@ export const LoadingContainer = styled("div", {
       width: "1rem",
       height: "1rem",
     },
+  },
+});
+
+export const CustomDialog = styled(Dialog, {
+  backgroundColor: "$background",
+  color: "$text",
+
+  h2: {
+    color: "$text",
+  },
+
+  p: {
+    display: "none",
   },
 });

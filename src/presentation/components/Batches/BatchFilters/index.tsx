@@ -1,6 +1,8 @@
 import { GetBatchFiltersOutput } from "@/application/usecases/Batch/dtos/GetBatchFilters.dto";
 import { GetBatchFilter } from "@/application/usecases/Batch/GetBatchFilter";
+import { CreateBatchForm } from "@/presentation/components/Batches/CreateBatchForm";
 import { Loading } from "@/presentation/components/General/Loading";
+import { useAuth } from "@/presentation/hooks/use-auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eraser, Funnel, MagnifyingGlass } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
@@ -26,6 +28,7 @@ interface BatchFiltersProps {
 }
 
 export const BatchFilters = ({ isLoading, setFilters }: BatchFiltersProps) => {
+  const { user } = useAuth();
   const [batchFilters, setBatchFilters] = useState<GetBatchFiltersOutput>();
   const [showMoreFilters, setShowMoreFilters] = useState<boolean>(false);
   const { register, handleSubmit, reset } = useForm<BachSearchForms>({
@@ -79,6 +82,16 @@ export const BatchFilters = ({ isLoading, setFilters }: BatchFiltersProps) => {
               </>
             )}
           </Button>
+          {user && user.isAdmin && (
+            <S.CustomDialog
+              id="createBatchModal"
+              title="Criar Batch Manual"
+              description="Criar Batch Manual"
+              trigger={<Button disabled={isLoading}>Criar</Button>}
+            >
+              <CreateBatchForm />
+            </S.CustomDialog>
+          )}
         </S.FormContentContainer>
         {showMoreFilters && (
           <S.FormContentContainer>
