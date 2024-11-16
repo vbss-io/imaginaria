@@ -1,5 +1,3 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
 import { registerDependencies } from "@/infra/dependency-injection/Register";
 import { BatchGallery } from "@/presentation/components/Batches/BatchGallery";
 import { Footer } from "@/presentation/components/General/Footer";
@@ -7,6 +5,7 @@ import { Loading } from "@/presentation/components/General/Loading";
 import { Header } from "@/presentation/components/Header";
 import { ImageDetails } from "@/presentation/components/Images/ImageDetails";
 import { ImageGallery } from "@/presentation/components/Images/ImageGallery";
+import { TaskGallery } from "@/presentation/components/Tasks/TasksGallery";
 import { VideoDetails } from "@/presentation/components/Videos/VideoDetails";
 import { VideoGallery } from "@/presentation/components/Videos/VideoGallery";
 import { Root } from "@/presentation/config/stitches.config";
@@ -19,6 +18,7 @@ import { Login } from "@/presentation/pages/Login";
 import { NotFound } from "@/presentation/pages/NotFound";
 import { Profile } from "@/presentation/pages/Profile";
 import { Videos } from "@/presentation/pages/Videos";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
@@ -85,7 +85,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile/tasks",
-        element: <></>,
+        element: <TaskGallery />,
       },
       {
         path: "/profile/images",
