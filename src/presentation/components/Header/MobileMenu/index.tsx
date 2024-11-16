@@ -1,4 +1,4 @@
-import { CassetteTape, Folders, Image, Video } from "@phosphor-icons/react";
+import { CassetteTape, Image, User, Video } from "@phosphor-icons/react";
 import { Button } from "vbss-ui";
 
 import { useAuth } from "@/presentation/hooks/use-auth";
@@ -10,27 +10,13 @@ interface MobileMenuProps {
 
 export const MobileMenu = ({ setShowMenu }: MobileMenuProps) => {
   const { user } = useAuth();
+
   return (
     <S.Container>
       <S.Info>
         <S.Title>AI Content Factory</S.Title>
       </S.Info>
       <S.Divider />
-      {user && (
-        <Button
-          as="a"
-          href="/batches"
-          variant={
-            window.location.pathname.includes("batches")
-              ? "secondary"
-              : "primary"
-          }
-          rounded="full"
-        >
-          <Folders color="white" width="1.3rem" height="1.3rem" />
-          Batches
-        </Button>
-      )}
       <Button
         as="a"
         href="/images"
@@ -65,6 +51,27 @@ export const MobileMenu = ({ setShowMenu }: MobileMenuProps) => {
         Áudios
       </Button>
       <S.Divider />
+      {!user ? (
+        <S.UserActions>
+          <Button as="a" href="/login" rounded="full">
+            Entrar
+          </Button>
+          <Button
+            className="signInButton"
+            as="a"
+            href="/signin"
+            rounded="full"
+            variant="outline-solid"
+          >
+            Cadastrar
+          </Button>
+        </S.UserActions>
+      ) : (
+        <Button as="a" href="/profile" rounded="full">
+          <User color="white" width="1.3rem" height="1.3rem" />
+          {user.username}
+        </Button>
+      )}
       <S.CloseButton>
         <Button
           icon="x"

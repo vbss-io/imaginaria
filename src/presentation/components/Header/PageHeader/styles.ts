@@ -12,6 +12,7 @@ export const Container = styled("div", {
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
   backgroundSize: "cover",
+  zIndex: 1,
 });
 
 export const HeaderButtonsContainer = styled("div", {
@@ -60,7 +61,7 @@ export const HeaderButtons = styled("div", {
 export const Title = styled("h1", {
   fontWeight: 700,
   color: "white",
-  zIndex: 1,
+  // zIndex: 1,
   fontSize: "2rem",
 
   "@xsm": {
@@ -79,7 +80,7 @@ export const ImageInfo = styled("a", {
   padding: "1rem",
   fontSize: "0.75rem",
   color: "white",
-  zIndex: 1,
+  // zIndex: 1,
   cursor: "pointer",
 
   span: {
@@ -93,6 +94,7 @@ export const BlackOverlay = styled("div", {
   width: "100%",
   height: "100%",
   opacity: 0.5,
+  zIndex: -1,
 });
 
 export const ImageDialog = styled(Dialog, {
