@@ -71,7 +71,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const updatedUser = { ...(user as User), avatar: newAvatar };
     setUser(updatedUser);
     deleteFromLocalStorage("user");
-    console.log("updatedUser", updatedUser);
     saveToLocalStorage("user", {
       ...updatedUser,
       avatar: updatedUser.avatar,
