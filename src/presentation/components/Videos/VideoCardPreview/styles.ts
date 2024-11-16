@@ -21,7 +21,6 @@ export const PlayIconWrapper = styled("div", {
   backgroundColor: "rgba(0, 0, 0, 0.75)",
   width: "2rem",
   height: "2rem",
-  zIndex: 1,
 
   svg: {
     width: "100%",
