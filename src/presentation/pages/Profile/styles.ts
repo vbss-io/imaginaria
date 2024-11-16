@@ -17,8 +17,10 @@ export const Content = styled("div", {
 
 export const TabsContainer = styled("div", {
   display: "flex",
+  flexWrap: "wrap",
+  justifyContent: "center",
+  padding: "0 1rem",
   gap: "1rem",
-  justifySelf: "self-start",
 });
 
 export const ActionButton = styled(Button, {

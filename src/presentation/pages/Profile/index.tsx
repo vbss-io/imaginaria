@@ -1,7 +1,8 @@
 import { BatchGallery } from "@/presentation/components/Batches/BatchGallery";
 import { Profile as ProfileComponent } from "@/presentation/components/General/Profile";
-import { ImageGallery } from "@/presentation/components/Images/ImageGallery";
-import { VideoGallery } from "@/presentation/components/Videos/VideoGallery";
+import { ProfileImageGallery } from "@/presentation/components/Images/ProfileImageGallery";
+import { TaskGallery } from "@/presentation/components/Tasks/TasksGallery";
+import { ProfileVideoGallery } from "@/presentation/components/Videos/ProfileVideoGallery";
 import { useAuth } from "@/presentation/hooks/use-auth";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -68,10 +69,10 @@ export const Profile = () => {
       </S.TabsContainer>
       <S.Content>
         {isBatches && <BatchGallery />}
-        {isTasks && <div>isTasks</div>}
+        {isTasks && <TaskGallery />}
         {isProfile && <ProfileComponent />}
-        {isImages && <ImageGallery callUserImages />}
-        {isVideos && <VideoGallery callUserVideos />}
+        {isImages && <ProfileImageGallery />}
+        {isVideos && <ProfileVideoGallery />}
       </S.Content>
     </S.Container>
   );
