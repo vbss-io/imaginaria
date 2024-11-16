@@ -22,7 +22,6 @@ export class UploadAvatar {
       body: formData,
       headers: { "Content-Type": "multipart/form-data" },
     });
-    console.log(response);
     return response.data;
   }
 }
