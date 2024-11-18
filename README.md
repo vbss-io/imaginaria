@@ -14,6 +14,10 @@ Acesse o aplicativo em [ai.vbss.io](https://ai.vbss.io)
 - **Backend**: [Ai Content Factory Back](https://github.com/vbss-io/ai-content-factory-back)
 - **Integrações**: Midjourney, Automatic111, DALL·E 3 (imagens), Luma Labs (vídeos)
 
-## 🌟 Observação  
+## 🎯 Observação  
 
 Este projeto está em beta fechado, com usuários cadastrados diretamente pelo back-end. Atualmente, o público geral tem acesso somente às abas de **Imagens** e **Vídeos**.  
+
+## 🌟 Contribuição  
+
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests neste repositório.  
