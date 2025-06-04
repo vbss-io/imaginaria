@@ -1,31 +1,56 @@
-import { Batch } from "@/domain/models/Batch/Batch";
-import { Image } from "@/domain/models/Image/Image";
-import { Video } from "@/domain/models/Video/Video";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react'
 
-interface useModalProps {
-  getMedias: (isScroll: boolean) => Promise<Image[] | Video[] | Batch[]>;
+import type { Image } from '@/domain/models/image.model'
+
+type Media = Image
+
+interface useInfiniteScrollProps<T extends Media> {
+  getMedias: (page: number) => Promise<T[]>
+  dependencies?: unknown[]
 }
 
-export const useInfiniteScroll = ({ getMedias }: useModalProps) => {
-  const [medias, setMedias] = useState<Image[] | Video[] | Batch[]>([]);
-  const shouldGet = useRef(true);
+export const useInfiniteScroll = <T extends Media>({ getMedias, dependencies = [] }: useInfiniteScrollProps<T>) => {
+  const [medias, setMedias] = useState<T[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  const page = useRef<number>(0)
+  const shouldGet = useRef(true)
+
+  const loadInitialMedias = async () => {
+    setIsLoading(true)
+    page.current = 0
+    shouldGet.current = true
+    setMedias([])
+    const initialMedias = await getMedias(1)
+    setMedias(initialMedias)
+    setIsLoading(false)
+    page.current = 1
+  }
+
+  useEffect(() => {
+    loadInitialMedias()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, dependencies)
 
   useEffect(() => {
     const handleScroll = async () => {
-      const scrollPosition = window.scrollY + window.innerHeight;
-      const pageHeight = document.documentElement.scrollHeight;
-      if (scrollPosition >= pageHeight && shouldGet.current) {
-        const newMedias = await getMedias(true);
-        if (!newMedias.length) return (shouldGet.current = false);
-        return setMedias(newMedias);
+      const scrollPosition = window.scrollY + window.innerHeight
+      const pageHeight = document.documentElement.scrollHeight
+      if (scrollPosition >= pageHeight && shouldGet.current && !isLoading) {
+        const nextPage = page.current + 1
+        const newMedias = await getMedias(nextPage)
+        if (!newMedias.length) {
+          shouldGet.current = false
+          return
+        }
+        setMedias((prev) => [...prev, ...newMedias])
+        page.current = nextPage
       }
-    };
-    window.addEventListener("scroll", handleScroll);
+    }
+    window.addEventListener('scroll', handleScroll)
     return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  });
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [getMedias, isLoading])
 
-  return { medias };
-};
+  return { medias, isLoading }
+}
