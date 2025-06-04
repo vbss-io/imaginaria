@@ -1,10 +1,11 @@
-import { AuthHttpClient } from "@/infra/http/AuthHttpClient";
-import { AxiosAdapter } from "@/infra/http/HttpClient";
-import { Registry } from "./Registry";
+import { AxiosAdapter } from '@/infra/adapters/http/axios-adapter'
+import { LocalStorageAdapter } from '@/infra/adapters/storage/local-storage-adapter'
+import { AuthHttpClient } from '@/infra/decorators/auth-http-client'
+import { Registry } from '@/infra/dependency-injection/registry'
 
 export const registerDependencies = () => {
-  const httpClient = new AxiosAdapter();
-  const authHttpClient = new AuthHttpClient();
-  Registry.getInstance().provide("httpClient", httpClient);
-  Registry.getInstance().provide("authHttpClient", authHttpClient);
-};
+  const registry = Registry.getInstance()
+  registry.provide('httpClient', new AxiosAdapter())
+  registry.provide('localStorage', new LocalStorageAdapter())
+  registry.provide('authHttpClient', new AuthHttpClient())
+}
