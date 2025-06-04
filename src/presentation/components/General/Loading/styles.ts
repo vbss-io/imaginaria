@@ -1,9 +1,9 @@
-import { keyframes, styled } from '@/presentation/config/stitches.config';
+import { keyframes, styled } from '@/presentation/styles/theme'
 
 const spin = keyframes({
   '0%': { transform: 'rotate(0deg)' },
-  '100%': { transform: 'rotate(360deg)' },
-});
+  '100%': { transform: 'rotate(360deg)' }
+})
 
 export const LoadingContainer = styled('div', {
   display: 'flex',
@@ -12,7 +12,7 @@ export const LoadingContainer = styled('div', {
   width: '100%',
   height: '100%',
   minHeight: '10rem'
-});
+})
 
 export const LoadingCircle = styled('div', {
   border: '5px solid #E5E7EB',
@@ -20,5 +20,5 @@ export const LoadingCircle = styled('div', {
   borderRadius: '50%',
   width: '3rem',
   height: '3rem',
-  animation: `${spin} 0.75s linear infinite`,
-});
+  animation: `${spin} 0.75s linear infinite`
+})
