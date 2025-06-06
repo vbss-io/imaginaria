@@ -6,12 +6,12 @@ export interface ImageDetails {
   aspectRatio: string
   path: string
   prompt: string
-  negativePrompt: string
+  negativePrompt?: string
   origin: string
   modelName: string
   likes: number
   tags: string[]
-  seed: string | number
+  seed?: string | number
   errorMessage?: string
   gatewayTaskId?: string
   createdAt: string

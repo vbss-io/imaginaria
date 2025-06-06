@@ -3,6 +3,7 @@ import { Registry } from '@/infra/dependency-injection/registry'
 
 export interface RequestImageUsecaseInput {
   gateway: string
+  model: string
   prompt: string
   aspectRatio: string
 }
