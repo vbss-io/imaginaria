@@ -1,4 +1,4 @@
-import { Image as ImageIcon, User } from '@phosphor-icons/react'
+import { Image as ImageIcon, User, Video as VideoIcon } from '@phosphor-icons/react'
 import { Button } from '@vbss-ui/button'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -19,6 +19,12 @@ export const Sidebar = () => {
       path: '/profile/images',
       icon: ImageIcon,
       isActive: location.pathname === '/profile/images'
+    },
+    {
+      label: 'Videos',
+      path: '/profile/videos',
+      icon: VideoIcon,
+      isActive: location.pathname === '/profile/videos'
     }
   ]
   return (

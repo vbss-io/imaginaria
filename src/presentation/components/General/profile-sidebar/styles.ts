@@ -1,7 +1,7 @@
 import { styled } from '@/presentation/styles/theme'
 
 export const Sidebar = styled('nav', {
-  width: '250px',
+  width: '300px',
   minHeight: '100vh',
   padding: '5rem 1rem',
   flexDirection: 'column',

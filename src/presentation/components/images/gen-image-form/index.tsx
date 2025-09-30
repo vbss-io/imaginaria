@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { RequestImageUsecase } from '@/application/usecases/images/request-image-usecase'
-import { imageAspectRatiosValues, imageGatewayValues } from '@/domain/consts/image.const'
+import { imageAspectRatiosValues, imageGatewayValues, imageModelValues } from '@/domain/consts/image.const'
 import { Loading } from '@/presentation/components/general/loading'
 
 import * as S from './styles'
@@ -16,12 +16,15 @@ const genImageForm = z.object({
   gateway: z.string({
     required_error: 'Gateway is required'
   }),
+  model: z.string({
+    required_error: 'Model is required'
+  }),
   prompt: z
     .string({
       required_error: 'Prompt is required'
     })
     .min(10, {
-      message: 'OPrompt is required'
+      message: 'Prompt is required'
     }),
   aspectRatio: z.string().min(1, {
     message: 'aspectRatio is required'
@@ -35,6 +38,7 @@ export const GenImageForm = () => {
   const [error, setError] = useState<string>('')
   const [success, setSuccess] = useState<boolean>(false)
   const [gateway, setGateway] = useState<string>(gatewayOptions[0].value)
+  const [model, setModel] = useState<string>('')
   const [dimensions, setDimensions] = useState(imageAspectRatiosValues[gatewayOptions[0].value])
   const [isLoading, setIsLoading] = useState(false)
   const { register, handleSubmit, formState, setValue, reset } = useForm<GenImageForms>({
@@ -60,17 +64,20 @@ export const GenImageForm = () => {
 
   useEffect(() => {
     setValue('gateway', gateway)
+    setValue('model', '')
     setValue('aspectRatio', '')
+    setModel('')
     switch (gateway) {
-      case 'goApiMidjourney':
-        return setDimensions(imageAspectRatiosValues['goApiMidjourney'])
-      case 'openAiDalle3':
-        return setDimensions(imageAspectRatiosValues['openAiDalle3'])
+      case 'goApi':
+        return setDimensions(imageAspectRatiosValues['goApi'])
+      case 'openAi':
+        return setDimensions(imageAspectRatiosValues['openAi'])
       default:
         return
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gateway])
+  }, [gateway, setValue])
+
+  const modelOptions = imageModelValues(gateway)
 
   return (
     <S.FormContainer>
@@ -87,6 +94,27 @@ export const GenImageForm = () => {
               </option>
             ))}
           </S.Select>
+        </S.SelectContainer>
+        <S.SelectContainer>
+          <S.SelectLabel htmlFor="model">Model:</S.SelectLabel>
+          <S.Select
+            value={model}
+            disabled={isLoading}
+            onChange={(e) => {
+              setModel(e.target.value)
+              setValue('model', e.target.value)
+            }}
+          >
+            <option value="" disabled>
+              Model
+            </option>
+            {modelOptions.map((value) => (
+              <option key={value.value} value={value.value}>
+                {value.label}
+              </option>
+            ))}
+          </S.Select>
+          {formState.errors.model?.message && <S.ErrorMessage>{formState.errors.model?.message}</S.ErrorMessage>}
         </S.SelectContainer>
         <S.FormTextAreaContainer>
           <Textarea label="Prompt:" placeholder="Type a prompt" {...register('prompt')} disabled={isLoading} />

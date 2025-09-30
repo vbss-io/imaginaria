@@ -1,4 +1,4 @@
-import { Image, User, X } from '@phosphor-icons/react'
+import { Image, User, Video, X } from '@phosphor-icons/react'
 import { Button } from '@vbss-ui/button'
 
 import { useAuth } from '@/presentation/hooks/use-auth'
@@ -42,6 +42,16 @@ export const MobileMenu = ({ setShowMenu }: MobileMenuProps) => {
           <Image color="white" width="1.3rem" height="1.3rem" />
           Images
         </Button>
+        <Button
+          as="a"
+          href="/videos"
+          variant={window.location.pathname === '/videos' ? 'primary' : 'secondary'}
+          rounded="full"
+          fontSize="sm"
+        >
+          <Video color="white" width="1.3rem" height="1.3rem" />
+          Videos
+        </Button>
         {user && (
           <>
             <S.Divider />
@@ -64,6 +74,16 @@ export const MobileMenu = ({ setShowMenu }: MobileMenuProps) => {
             >
               <Image color="white" width="1.3rem" height="1.3rem" />
               My Images
+            </Button>
+            <Button
+              as="a"
+              href="/profile/videos"
+              variant={window.location.pathname === '/profile/videos' ? 'primary' : 'secondary'}
+              rounded="full"
+              fontSize="sm"
+            >
+              <Video color="white" width="1.3rem" height="1.3rem" />
+              My Videos
             </Button>
           </>
         )}

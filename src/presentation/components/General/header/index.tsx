@@ -1,4 +1,4 @@
-import { GithubLogo, Hamburger, Image, Moon, Sun, User } from '@phosphor-icons/react'
+import { GithubLogo, Hamburger, Image, Moon, Sun, User, Video } from '@phosphor-icons/react'
 import { Button } from '@vbss-ui/button'
 import { Switch } from '@vbss-ui/switch'
 import { Tooltip } from '@vbss-ui/tooltip'
@@ -31,6 +31,16 @@ export const Header = () => {
           >
             <Image color="white" width="1.2rem" height="12em" />
             Images
+          </Button>
+          <Button
+            as="a"
+            href="/videos"
+            variant={window.location.pathname.includes('videos') ? 'secondary' : 'primary'}
+            rounded="full"
+            fontSize="sm"
+          >
+            <Video color="white" width="1.2rem" height="12em" />
+            Videos
           </Button>
         </S.HeaderButtons>
         <S.Actions>
